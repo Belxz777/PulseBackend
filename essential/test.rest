@@ -1,0 +1,23 @@
+GET http://127.0.0.1:8000/api/users/1 
+###
+POST  http://127.0.0.1:8000/api/get_job_title/
+Content-Type: application/json
+
+{ "name":"Бухгалтер"}
+
+###
+
+POST http://127.0.0.1:8000/api/users/'
+Content-Type: application/json
+
+{
+    "job_title_id":"2",
+    "age":32,
+    "first_name":"Роман",
+    "last_name":"Белых",
+    "father_name":"Гощей",
+    "login":"Dino32",
+    "password":"213"
+}
+
+// install rest_client 
