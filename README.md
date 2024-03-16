@@ -1,6 +1,6 @@
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=22F775&random=false&width=435&lines=Backend+for+a+JIRA+clone+application)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=22F775&random=true&width=435&lines=Backend+for+a+JIRA+clone+application)](https://git.io/typing-svg)
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=85F78F&random=false&width=435&lines=%D0%91%D1%8D%D0%BA%D0%B5%D0%BD%D0%B4+%D0%B4%D0%BB%D1%8F+%D0%BA%D0%BB%D0%BE%D0%BD%D0%B0+JIRA)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=85F78F&random=true&width=435&lines=%D0%91%D1%8D%D0%BA%D0%B5%D0%BD%D0%B4+%D0%B4%D0%BB%D1%8F+%D0%BA%D0%BB%D0%BE%D0%BD%D0%B0+JIRA)](https://git.io/typing-svg)
 
 This is a backend app written on Django for an K employees , for managaing his work time .
 Full Stack clone of JIRA with a specific changes . 
