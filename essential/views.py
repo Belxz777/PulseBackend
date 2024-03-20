@@ -68,15 +68,32 @@ class UserView(APIView):
 
         token = request.COOKIES.get('jwt')
         if token is None:
-            raise AuthenticationFailed({'message': 'Ты не аутетифицирован '}, status=401)
+            raise AuthenticationFailed({'message': 'Ты не аутетифицирован '})
         try:
             payload = jwt.decode(token, 'secret', algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Токен истек', status=401)
+            raise AuthenticationFailed('Токен истек')
         user = User.objects.filter(id=payload['user']).first()
         serialize = UsersSerializer(user)
         return Response({'message': 'Ты аутетифицирован','token':token,'userData':serialize.data})
 
+@api_view([ 'POST'])
+def refresh_token(request):
+    data = request.data
+    token = data['token']
+    try:
+        payload = jwt.decode(token, "secret", algorithms=['HS256'])
+        exp_time = datetime.datetime.fromtimestamp(payload['exp'])
+        now = datetime.datetime.now()
+        if now < exp_time:
+            return Response({'message': 'Токен не истек'}, status=200)
+        else:
+            new_payload = {'exp': datetime.datetime.now() + datetime.timedelta(days=10)}
+            new_token = jwt.encode(new_payload, 'secret', algorithm='HS256')
+            return Response({'message': 'Токен истек, но был обновлен', 'token': new_token.decode('utf-8')}, status=200)
+        
+    except jwt.exceptions.DecodeError:
+        return None
 
 
 
