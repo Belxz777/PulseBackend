@@ -21,7 +21,7 @@ def user_managing(request, id):
         return db_create(request, UsersSerializer)
 
     elif request.method == 'PUT':
-        return db_create(request, UsersSerializer, id)
+        return db_update(request, UsersSerializer,  User,  id)
 
 
 @api_view(['GET', 'POST', 'DELETE'])

@@ -29,10 +29,11 @@ def db_create(request, Serializer=UsersSerializer()):
     return JsonResponse(serializer.errors, status=400)
 
 
-def db_update(request, Serializer=UsersSerializer(),id=-1):
+def db_update(request, Serializer=UsersSerializer(), curent_class=User(), id=-1):
     data = JSONParser().parse(request)
+    instans = curent_class.objects.all().filter(id=id)
     serializer = Serializer(data=data)
     if serializer.is_valid():
-        serializer.put(id)
+        serializer.update(instans, data)
         return JsonResponse(serializer.data, status=200)
     return JsonResponse(serializer.errors, status=400)
