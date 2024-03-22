@@ -25,9 +25,3 @@ def get_all_user_task(request, user_id):
         return db_get(user_with_task, UserWithTaskSerializer, UserWithTask)
 
 
-class RegisterView(APIView):
-    def post(self, request):
-        serializer = UsersSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=201)

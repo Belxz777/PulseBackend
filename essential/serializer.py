@@ -25,12 +25,15 @@ class UsersSerializer(serializers.ModelSerializer):
             return instance
 
 
+
 class JobTitleSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobTitle
-        fields = ('id',
-                  'name'
-                  )
+        fields = ('name',)
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+        return instance
 
 
 class ProjectSerializer(serializers.ModelSerializer):

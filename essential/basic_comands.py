@@ -1,8 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 
-from .models import User
-from .serializer import UsersSerializer
+from .models import User, JobTitle, Project, Task, UserWithTask
+from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, UserWithTaskSerializer
 
 
 def db_get(objects=[], Serializer=UsersSerializer(), curent_class=User()):
@@ -20,7 +20,7 @@ def db_get(objects=[], Serializer=UsersSerializer(), curent_class=User()):
         return JsonResponse({'message': 'The job_title does not exist'}, status=404)
 
 
-def db_create(request, Serializer=UsersSerializer()):
+def db_create(request, Serializer=None):
     data = JSONParser().parse(request)
     serializer = Serializer(data=data)
     if serializer.is_valid():
@@ -29,11 +29,10 @@ def db_create(request, Serializer=UsersSerializer()):
     return JsonResponse(serializer.errors, status=400)
 
 
-def db_update(request, Serializer=UsersSerializer(), curent_class=User(), id=-1):
+def db_update(request, Serializer=None, instanse=None):
     data = JSONParser().parse(request)
-    instans = curent_class.objects.all().filter(id=id)
-    serializer = Serializer(data=data)
+    serializer = Serializer(instanse, data=data)
     if serializer.is_valid():
-        serializer.update(instans, data)
+        serializer.save()
         return JsonResponse(serializer.data, status=200)
     return JsonResponse(serializer.errors, status=400)

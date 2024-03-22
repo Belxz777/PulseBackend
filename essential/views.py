@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
@@ -24,7 +25,7 @@ def user_managing(request, id):
         return db_update(request, UsersSerializer,  User,  id)
 
 
-@api_view(['GET', 'POST', 'DELETE'])
+@api_view(['GET', 'POST', 'DELETE', "PUT"])
 def job_title_managing(request, id):
 
     if request.method == 'GET':
@@ -33,6 +34,10 @@ def job_title_managing(request, id):
 
     elif request.method == 'POST':
         return db_create(request, JobTitleSerializer)
+
+    elif request.method == 'PUT':
+        job = JobTitle.objects.get(id=id)
+        return db_update(request, JobTitleSerializer, job)
 
 
 @api_view(['GET', 'POST', 'DELETE'])
