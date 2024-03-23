@@ -1,6 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
 
+from . import models
 from .models import User, JobTitle, Project, Task, UserWithTask
 from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, UserWithTaskSerializer
 
@@ -36,3 +38,14 @@ def db_update(request, Serializer=None, instanse=None):
         serializer.save()
         return JsonResponse(serializer.data, status=200)
     return JsonResponse(serializer.errors, status=400)
+
+
+def db_delete(curent_class = None, id = 0):
+    response = Response()
+    try:
+        object = curent_class.objects.get(id=id)
+        object.delete()
+        response.data = {"massage":"object deleted successfully"}
+    except:
+        response.data = {"massage":"error: object was not deleted"}
+    return response
