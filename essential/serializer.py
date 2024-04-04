@@ -11,6 +11,7 @@ class UsersSerializer(serializers.ModelSerializer):
                   'first_name',
                   'last_name',
                   'father_name',
+                  'position',
                   'login',
                   'password')
         # пароль не возвращать
@@ -53,13 +54,28 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = ('id',
                   'name',
-                  'description'
+                  'description',
+                  'todo',
+                  'members'
                   )
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
         instance.save()
         return instance
+    
+class GetProectsSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Project
+            fields = ('id',
+                      'name',
+                      'description',
+                      'todo',
+                      'members',
+                      'created_at',
+                      )
+        
+
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
@@ -67,12 +83,20 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = ('id',
                   'project_id',
                   'name',
-                  'description'
+                  'description',
+                  'daysToAccomplish',
+                  'stageAt',
+                  'priority',
+                  'workers'
                   )
     def update(self, instance, validated_data):
         instance.project_id = validated_data.get('project_id', instance.project_id)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
+        instance.save()
+        return instance
+    def updateStage(self, instance, validated_data):
+        instance.stageAt = validated_data.get('stageAt', instance.stageAt)
         instance.save()
         return instance
 

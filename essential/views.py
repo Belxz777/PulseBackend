@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 
 from .basic_comands import db_get, db_create, db_update, db_delete
 from .models import User, JobTitle, Project, Task, UserWithTask
-from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, UserWithTaskSerializer
+from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, UserWithTaskSerializer,GetProectsSerializer
 
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
@@ -42,16 +42,17 @@ def job_title_managing(request, id):
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def project_managing(request, id):
-    project = Project.objects.all().filter(id=id)
+    project = Project.objects.prefetch_related('todo', 'members').all().filter(id=id)
 
     if request.method == 'GET':
-        return db_get(project, ProjectSerializer, Project)
+     
+        return db_get(project,GetProectsSerializer)
 
     elif request.method == 'POST':
         return db_create(request, ProjectSerializer)
 
     elif request.method == 'PUT':
-        project = Project.objects.get(id=id)
+        project = Project.objects.get(id=id) 
         return db_update(request, ProjectSerializer, project)
 
     elif request.method == 'DELETE':
