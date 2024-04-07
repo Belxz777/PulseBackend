@@ -75,7 +75,28 @@ def task_managing(request, id):
     elif request.method == 'DELETE':
         return db_delete(Task, id)
 
-@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+def getAllUserProjects(request,user_id):
+        projects = Project.objects.all().filter(members=user_id)
+        return db_get(projects,GetProectsSerializer)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+""" @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def user_with_task_managing(request, id):
     user_with_task = UserWithTask.objects.all().filter(id=id)
 
@@ -90,4 +111,4 @@ def user_with_task_managing(request, id):
         return db_update(request, UserWithTaskSerializer, uwt)
     
     elif request.method == 'DELETE':
-        return db_delete(UserWithTask, id)
+        return db_delete(UserWithTask, id) """
