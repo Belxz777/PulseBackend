@@ -56,7 +56,6 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ('id',
                   'name',
                   'description',
-                  'todo',
                   'members'
                   )
     def update(self, instance, validated_data):
@@ -71,12 +70,23 @@ class GetProectsSerializer(serializers.ModelSerializer):
             fields = ('id',
                       'name',
                       'description',
-                      'todo',
                       'members',
                       'created_at',
                       )
         
-
+class GetTasksSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Task
+            fields = ('id',
+                  'project_id',
+                  'name',
+                  'description',
+                  'hoursToAccomplish',
+                  'stageAt',
+                  'priority',
+                  'workers',
+                  'created_at',
+                      )
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
@@ -85,10 +95,10 @@ class TaskSerializer(serializers.ModelSerializer):
                   'project_id',
                   'name',
                   'description',
-                  'daysToAccomplish',
+                  'hoursToAccomplish',
                   'stageAt',
                   'priority',
-                  'workers'
+                  'workers',
                   )
     def update(self, instance, validated_data):
         instance.project_id = validated_data.get('project_id', instance.project_id)
@@ -98,26 +108,5 @@ class TaskSerializer(serializers.ModelSerializer):
         return instance
     def updateStage(self, instance, validated_data):
         instance.stageAt = validated_data.get('stageAt', instance.stageAt)
-        instance.save()
-        return instance
-
-class UserWithTaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserWithTask
-        fields = ('id',
-                  'user_id',
-                  'project_id',
-                  'task_id',
-                  'status',
-                  'work_date',
-                  'work_time'
-                  )
-    def update(self, instance, validated_data):
-        instance.user_id = validated_data.get('user_id', instance.user_id)
-        instance.project_id = validated_data.get('project_id', instance.project_id)
-        instance.task_id = validated_data.get('task_id', instance.task_id)
-        instance.status = validated_data.get('status', instance.status)
-        instance.work_date = validated_data.get('work_date', instance.work_date)
-        instance.work_time = validated_data.get('work_time', instance.work_time)
         instance.save()
         return instance

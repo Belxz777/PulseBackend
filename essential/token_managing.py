@@ -4,8 +4,8 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.views import APIView
 import jwt,datetime
 
-from .models import User, JobTitle, Project, Task, UserWithTask
-from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, UserWithTaskSerializer
+from .models import User
+from .serializer import UsersSerializer
 class RegisterView(APIView):
     def post(self, request):
         serializer = UsersSerializer(data=request.data)

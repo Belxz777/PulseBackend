@@ -21,7 +21,7 @@ class Task(models.Model):
     project_id = models.ForeignKey('Project', on_delete=models.PROTECT)
     name = models.CharField(max_length=70)
     description = models.CharField(max_length=800)
-    daysToAccomplish = models.IntegerField(default=0)
+    hoursToAccomplish = models.IntegerField(default=0)
     stageAt = models.CharField(max_length=20,choices=STAGES,default=INTALK)
     priority = models.IntegerField(default=0)
     workers = models.ManyToManyField('User')
@@ -30,7 +30,6 @@ class Task(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=70)
     description = models.CharField(max_length=800)
-    todo  = models.ManyToManyField(Task,blank=True)
     members = models.ManyToManyField('User')
     created_at = models.DateField(default=django.utils.timezone.now)
 
