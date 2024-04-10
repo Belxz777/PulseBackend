@@ -1,3 +1,3 @@
-docker-compose build
-docker-compose exec backend python manage.py migrate --noinput
-docker-compose up -d
+docker-compose run backend  python manage.py makemigrations
+docker-compose run backend  python manage.py migrate
+docker-compose up  --build
