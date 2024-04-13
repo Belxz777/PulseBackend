@@ -35,16 +35,21 @@ class Project(models.Model):
 
 
 class User(models.Model):
+    WORKER = 'W'
+    BOSS = 'B'
+    STAGES = [
+(WORKER,"Работник"),
+(BOSS,"Руководитель"),
+    ]
     job_title_id = models.ForeignKey(JobTitle, on_delete=models.PROTECT)
     avatar = models.CharField(max_length=800,default="https://www.svgrepo.com/show/192244/man-user.svg")
     age = models.IntegerField(default=0)
     first_name = models.CharField(max_length=800)
-    tasks  = models.ManyToManyField(Task)
     last_name = models.CharField(max_length=800)
     father_name = models.CharField(max_length=800)
     login = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    position = models.CharField(max_length=800 , default="работник")
+    position = models.CharField(max_length=800 , choices=STAGES,default=WORKER)
 
 class AllUserTasks(generics.ListAPIView):
     class UserProjectsAndTasks(models.Model):
@@ -56,11 +61,3 @@ class AllUserTasks(generics.ListAPIView):
         def get_user_tasks(self, user_id):
             return Task.objects.filter(workers=user_id)
     
-    
-class UserWithTask(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
-    task_id = models.ForeignKey(Task, on_delete=models.PROTECT)
-    project_id = models.ForeignKey(Project, on_delete=models.PROTECT)
-    status = models.CharField(max_length=800)
-    work_date = models.DateField(null=True)
-    work_time = models.IntegerField(null=True)
