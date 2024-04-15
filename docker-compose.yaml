@@ -26,7 +26,7 @@ services:
     env_file:
       - .env
     volumes:
-      - твойабсолютныйпуть:/usr/src/app
+      - C:\Users\Timon\Documents\GitHub\DjangoJiraClone:/usr/src/app
     ports:
       - 8000:8000
 

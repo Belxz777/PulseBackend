@@ -25,26 +25,24 @@ class Task(models.Model):
     stageAt = models.CharField(max_length=20,choices=STAGES,default=INTALK)
     priority = models.IntegerField(default=0)
     workers = models.ManyToManyField('User')
-    created_at = models.DateField(default=django.utils.timezone.now)
+    created_at = models.DateTimeField(default=django.utils.timezone.now)
 
 class Project(models.Model):
     name = models.CharField(max_length=70)
     description = models.CharField(max_length=800)
     members = models.ManyToManyField('User')
-    created_at = models.DateField(default=django.utils.timezone.now)
+    created_at = models.DateTimeField(default=django.utils.timezone.now)
 
 
 class User(models.Model):
     job_title_id = models.ForeignKey(JobTitle, on_delete=models.PROTECT)
     avatar = models.CharField(max_length=800,default="https://www.svgrepo.com/show/192244/man-user.svg")
     age = models.IntegerField(default=0)
-    first_name = models.CharField(max_length=800)
-    tasks  = models.ManyToManyField(Task)
+    first_name = models.CharField(max_length=800)   
     last_name = models.CharField(max_length=800)
     father_name = models.CharField(max_length=800)
     login = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    position = models.CharField(max_length=800 , default="работник")
 
 class AllUserTasks(generics.ListAPIView):
     class UserProjectsAndTasks(models.Model):

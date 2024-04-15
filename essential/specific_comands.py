@@ -37,6 +37,7 @@ def get_all_task_for_project(request,project_id):
         task_for_project = Task.objects.all().filter(project_id=project_id)
         return db_get(task_for_project, TaskSerializer, Task)
 
+@api_view(['GET'])
 def user_worktime_managing(request,user_id):
 
     all_tasks = Task.objects.all().filter(workers = user_id)
