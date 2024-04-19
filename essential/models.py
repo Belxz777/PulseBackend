@@ -33,7 +33,6 @@ class Project(models.Model):
     members = models.ManyToManyField('User')
     created_at = models.DateField(default=django.utils.timezone.now)
 
-
 class User(models.Model):
     job_title_id = models.ForeignKey(JobTitle, on_delete=models.PROTECT)
     avatar = models.CharField(max_length=800,default="https://www.svgrepo.com/show/192244/man-user.svg")
