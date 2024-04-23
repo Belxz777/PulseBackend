@@ -1,8 +1,8 @@
 from rest_framework.decorators import api_view
 
 from .basic_comands import db_get, db_create, db_update, db_delete
-from .models import User, JobTitle, Project, Task
-from .serializer import GetTasksSerializer, UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, GetProectsSerializer
+from .models import User, JobTitle, Project, Task, Issue
+from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer
 
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
@@ -17,7 +17,7 @@ def user_managing(request, id):
     elif request.method == 'PUT':
         user = User.objects.get(id=id)
         return db_update(request, UsersSerializer, user)
-        
+
     elif request.method == 'DELETE':
         return db_delete(User, id)
 
@@ -39,32 +39,28 @@ def job_title_managing(request, id):
         return db_delete(JobTitle, id)
 
 
-
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def project_managing(request, id):
-
-
     if request.method == 'GET':
         project = Project.objects.all().filter(id=id)
-        return db_get(project,ProjectSerializer)
+        return db_get(project, ProjectSerializer)
 
     elif request.method == 'POST':
         return db_create(request, ProjectSerializer)
 
     elif request.method == 'PUT':
-        project = Project.objects.get(id=id) 
+        project = Project.objects.get(id=id)
         return db_update(request, ProjectSerializer, project)
 
     elif request.method == 'DELETE':
         return db_delete(Project, id)
 
+
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def task_managing(request, id):
-
-
     if request.method == 'GET':
         task = Task.objects.all().filter(id=id)
-        return db_get(task,TaskSerializer)
+        return db_get(task, TaskSerializer)
 
     elif request.method == 'POST':
         return db_create(request, TaskSerializer)
@@ -76,40 +72,19 @@ def task_managing(request, id):
     elif request.method == 'DELETE':
         return db_delete(Task, id)
 
-def getAllUserProjects(request,user_id):
-        projects = Project.objects.all().filter(members=user_id)
-        return db_get(projects,ProjectSerializer)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-""" @api_view(['GET', 'POST', 'DELETE', 'PUT'])
-def user_with_task_managing(request, id):
-    user_with_task = UserWithTask.objects.all().filter(id=id)
-
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+def issue_managing(request, id):
     if request.method == 'GET':
-        return db_get(user_with_task, UserWithTaskSerializer, UserWithTask)
+        issue = Issue.objects.all().filter(id=id)
+        return db_get(issue, IssueSerializer)
 
     elif request.method == 'POST':
-        return db_create(request, UserWithTaskSerializer)
+        return db_create(request, IssueSerializer)
 
     elif request.method == 'PUT':
-        uwt = UserWithTask.objects.get(id=id)
-        return db_update(request, UserWithTaskSerializer, uwt)
-    
+        issue = Issue.objects.get(id=id)
+        return db_update(request, IssueSerializer, issue)
+
     elif request.method == 'DELETE':
-        return db_delete(UserWithTask, id) """
+        return db_delete(Issue, id)

@@ -1,20 +1,21 @@
 from rest_framework import serializers
-from .models import User, JobTitle, Project, Task
+from .models import User, JobTitle, Project, Task, Issue
 
 
 class UsersSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = User
         fields = ('id',
                   'job_title_id',
                   'avatar',
-                  'avatar', 
+                  'avatar',
                   'age',
                   'first_name',
                   'last_name',
                   'father_name',
                   'login',
-                  'password')
+                  'password',
+                  'position')
         # пароль не возвращать
         extra_kwargs = {'password': {'write_only': True},
                         'login': {'write_only': True}}
@@ -36,6 +37,7 @@ class UsersSerializer(serializers.ModelSerializer):
             instance.father_name = validated_data.get('father_name', instance.father_name)
             instance.login = validated_data.get('login', instance.login)
             instance.password = validated_data.get('password', instance.password)
+            instance.position = validated_data.get('position', instance.position)
             instance.save()
             return instance
 
@@ -70,7 +72,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         return instance
 
 
-class GetTasksSerializer(serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ('id',
@@ -84,10 +86,21 @@ class GetTasksSerializer(serializers.ModelSerializer):
                   'created_at',
                   )
 
+    def update(self, instance, validated_data):
+        instance.project_id = validated_data.get('project_id', instance.project_id)
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.hoursToAccomplish = validated_data.get('hoursToAccomplish', instance.hoursToAccomplish)
+        instance.stageAt = validated_data.get('stageAt', instance.stageAt)
+        instance.priority = validated_data.get('priority', instance.priority)
+        instance.workers.set(validated_data['workers'])
+        instance.save()
+        return instance
 
-class TaskSerializer(serializers.ModelSerializer):
+
+class IssueSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Task
+        model = Issue
         fields = ('id',
                   'project_id',
                   'name',
