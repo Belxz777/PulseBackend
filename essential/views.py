@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 
 from .basic_comands import db_get, db_create, db_update, db_delete
 from .models import User, JobTitle, Project, Task
-from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer
+from .serializer import GetTasksSerializer, UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, GetProectsSerializer
 
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
@@ -17,7 +17,7 @@ def user_managing(request, id):
     elif request.method == 'PUT':
         user = User.objects.get(id=id)
         return db_update(request, UsersSerializer, user)
-
+        
     elif request.method == 'DELETE':
         return db_delete(User, id)
 

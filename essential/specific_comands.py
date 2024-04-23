@@ -45,7 +45,9 @@ def user_worktime_managing(request,user_id):
     hoursTotal = calculate_total_days(all_tasks)
 
     return JsonResponse({'workHours':hoursTotal})
-
+def getUserByName(request,user_name):
+    user = User.objects.all().filter(last_name__startswith=user_name)
+    return db_get(user, UsersSerializer, User)
  
         
 
