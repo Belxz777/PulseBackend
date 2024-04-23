@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 
 from .basic_comands import db_get, db_create, db_update, db_delete
 from .models import User, JobTitle, Project, Task
-from .serializer import GetTasksSerializer, UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, GetProectsSerializer
+from .serializer import  UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer
 
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
