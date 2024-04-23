@@ -94,7 +94,7 @@ DATABASES = {
         'NAME': 'system_memory',
         'USER': 'postgres',
         'PASSWORD': '123',
-        'HOST': "localhost",  # ! Здесь настройки базы данных
+        'HOST': "db",  # ! Здесь настройки базы данных 
         'PORT': '5432',          # ! There is settings for database
     }
 }

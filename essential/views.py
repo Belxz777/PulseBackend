@@ -42,11 +42,11 @@ def job_title_managing(request, id):
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def project_managing(request, id):
-
+    project = Project.objects.all().filter(id=id)
 
     if request.method == 'GET':
-        project = Project.objects.all().filter(id=id)
-        return db_get(project,ProjectSerializer)
+     
+        return db_get(project,GetProectsSerializer)
 
     elif request.method == 'POST':
         return db_create(request, ProjectSerializer)
@@ -58,18 +58,17 @@ def project_managing(request, id):
     elif request.method == 'DELETE':
         return db_delete(Project, id)
 
-@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+@api_view(['GET', 'POST', 'DELETE', 'PATCH'])
 def task_managing(request, id):
-
+    task = Task.objects.all().filter(id=id)
 
     if request.method == 'GET':
-        task = Task.objects.all().filter(id=id)
-        return db_get(task,TaskSerializer)
+        return db_get(task,GetTasksSerializer)
 
     elif request.method == 'POST':
         return db_create(request, TaskSerializer)
 
-    elif request.method == 'PUT':
+    elif request.method == 'PATCH':
         task = Task.objects.get(id=id)
         return db_update(request, TaskSerializer, task)
 
@@ -78,7 +77,7 @@ def task_managing(request, id):
 
 def getAllUserProjects(request,user_id):
         projects = Project.objects.all().filter(members=user_id)
-        return db_get(projects,ProjectSerializer)
+        return db_get(projects,GetProectsSerializer)
 
 
 
