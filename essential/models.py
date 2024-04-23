@@ -25,7 +25,7 @@ class Task(models.Model):
     stageAt = models.CharField(max_length=20,choices=STAGES,default=INTALK)
     priority = models.IntegerField(default=0)
     workers = models.ManyToManyField('User')
-    created_at = models.DateTimeField(default=django.utils.timezone.now)
+    created_at = models.DateField(default=django.utils.timezone.now)
 
 class Project(models.Model):
     name = models.CharField(max_length=70)
