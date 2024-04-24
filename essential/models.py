@@ -60,4 +60,3 @@ class AllUserTasks(generics.ListAPIView):
         def get_user_tasks(self, user_id):
             return Task.objects.filter(workers=user_id)
     
-    
