@@ -2,16 +2,16 @@
 import django
 from django.db import models
 from rest_framework import generics
-
+import datetime
 class JobTitle(models.Model):
     name = models.CharField(max_length=50)
 
 
 
 class Task(models.Model):
-    MADE = 'G'
-    PROGRESS = 'R'
-    INTALK = 'O'
+    MADE = 'Готово'
+    PROGRESS = 'В процессе'
+    INTALK = 'В обсуждении'
     STAGES = [
 (MADE,"Готово"),
 (PROGRESS,"В процессе"),
@@ -25,13 +25,13 @@ class Task(models.Model):
     stageAt = models.CharField(max_length=20,choices=STAGES,default=INTALK)
     priority = models.IntegerField(default=0)
     workers = models.ManyToManyField('User')
-    created_at = models.DateField(default=django.utils.timezone.now)
+    created_at = models.DateField(default=datetime.date.today)
 
 class Project(models.Model):
     name = models.CharField(max_length=70)
     description = models.CharField(max_length=800)
     members = models.ManyToManyField('User')
-    created_at = models.DateField(default=django.utils.timezone.now)
+    created_at = models.DateField(default=datetime.date.today)
 
 class User(models.Model):
     WORKER = 'W'
@@ -48,7 +48,7 @@ class User(models.Model):
     father_name = models.CharField(max_length=800)
     login = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    position = models.CharField(max_length=800 , choices=STAGES,default=WORKER)
+
 
 class AllUserTasks(generics.ListAPIView):
     class UserProjectsAndTasks(models.Model):

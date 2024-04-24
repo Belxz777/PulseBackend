@@ -10,10 +10,11 @@ class UsersSerializer(serializers.ModelSerializer):
                   'avatar',
                   'age',
                   'first_name',
+                  'last_name',
                   'father_name',
                   'login',
                   'password',
-                  'position')
+        )
         # пароль не возвращать
         extra_kwargs = {'password': {'write_only': True},
                         'login': {'write_only': True}}
