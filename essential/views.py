@@ -46,7 +46,7 @@ def project_managing(request, id):
 
     if request.method == 'GET':
      
-        return db_get(project,GetProectsSerializer)
+        return db_get(project,ProjectSerializer)
 
     elif request.method == 'POST':
         return db_create(request, ProjectSerializer)
@@ -63,7 +63,7 @@ def task_managing(request, id):
     task = Task.objects.all().filter(id=id)
 
     if request.method == 'GET':
-        return db_get(task,GetTasksSerializer)
+        return db_get(task,ProjectSerializer)
 
     elif request.method == 'POST':
         return db_create(request, TaskSerializer)
@@ -77,7 +77,7 @@ def task_managing(request, id):
 
 def getAllUserProjects(request,user_id):
         projects = Project.objects.all().filter(members=user_id)
-        return db_get(projects,GetProectsSerializer)
+        return db_get(projects,ProjectSerializer)
 
 
 
