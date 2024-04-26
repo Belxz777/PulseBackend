@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view
 
 from essential.utils.CalculateHours import calculate_total_days
 
-from .models import User, JobTitle, Project, Task, Issue
-from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer
+from .models import User, JobTitle, Project, Task, Issue, Department
+from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer
 from .basic_comands import db_get
 
 # про job_title
@@ -65,3 +65,9 @@ def get_all_issue_for_project(request, project_id):
     if request.method == 'GET':
         issue_for_project = Issue.objects.all().filter(project_id=project_id)
         return db_get(issue_for_project, IssueSerializer, Issue)
+
+
+def get_all_departments(request):
+    if request.method == 'GET':
+        departments = Department.objects.all()
+        return db_get(departments, DepartmentSerializer, Department)

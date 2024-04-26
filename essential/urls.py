@@ -25,5 +25,7 @@ urlpatterns = [
     path("all_user_projects/<user_id>", specific_comands.get_all_user_projects),
 
     path('user_worktime/<user_id>',specific_comands.user_worktime_managing),
-    path('userbyName/<user_name>',specific_comands.getUserByName)
+    path('userbyName/<user_name>',specific_comands.getUserByName),
+
+    path('get_all_departments/<user_name>',specific_comands.get_all_departments)
 ]

@@ -15,7 +15,8 @@ class UsersSerializer(serializers.ModelSerializer):
                   'father_name',
                   'login',
                   'password',
-                  'position')
+                  'position',
+                  'department_id')
         # пароль не возвращать
         extra_kwargs = {'password': {'write_only': True},
                         'login': {'write_only': True}}
@@ -38,6 +39,7 @@ class UsersSerializer(serializers.ModelSerializer):
             instance.login = validated_data.get('login', instance.login)
             instance.password = validated_data.get('password', instance.password)
             instance.position = validated_data.get('position', instance.position)
+            instance.department_id = validated_data.get('department_id', instance.department_id)
             instance.save()
             return instance
 
