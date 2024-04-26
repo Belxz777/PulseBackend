@@ -1,4 +1,5 @@
 
+import datetime
 import django
 from django.db import models
 from rest_framework import generics
@@ -25,13 +26,13 @@ class Task(models.Model):
     stageAt = models.CharField(max_length=20,choices=STAGES,default=INTALK)
     priority = models.IntegerField(default=0)
     workers = models.ManyToManyField('User')
-    created_at = models.DateTimeField(default=django.utils.timezone.now)
+    created_at = models.DateField(default=datetime.date.today)
 
 class Project(models.Model):
     name = models.CharField(max_length=70)
     description = models.CharField(max_length=800)
     members = models.ManyToManyField('User')
-    created_at = models.DateField(default=django.utils.timezone.now)
+    created_at = models.DateField(default=datetime.date.today)
 
 class Issue(models.Model):
 
@@ -49,7 +50,7 @@ class Issue(models.Model):
     stageAt = models.CharField(max_length=30, choices=STAGES, default=NOT_FIXED)
     priority = models.IntegerField(default=0)
     workers = models.ManyToManyField('User')
-    created_at = models.DateTimeField(default=django.utils.timezone.now)
+    created_at = models.DateTimeField(default=datetime.date.today)
 
 class User(models.Model):
     WORKER = 'W'
