@@ -12,6 +12,7 @@ urlpatterns = [
     path("project/<id>",views.project_managing),
     path("task/<id>",views.task_managing),
     path("issue/<id>",views.issue_managing),
+    path("department/<id>",views.Department_managing),
 
 
     path("all_job_titles", specific_comands.get_all_job_titles),

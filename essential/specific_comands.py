@@ -3,13 +3,13 @@ from datetime import datetime
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 
-from essential.calks.CalculateHours import calculate_total_days
+from essential.utils.CalculateHours import calculate_total_days
 
 from .models import User, JobTitle, Project, Task, Issue
 from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer
 from .basic_comands import db_get
 
-
+# про job_title
 @api_view(['GET'])
 def get_all_job_titles(request):
     if request.method == 'GET':
@@ -17,6 +17,8 @@ def get_all_job_titles(request):
         return db_get(job_title, JobTitleSerializer, JobTitle)
 
 
+
+# про user
 @api_view(['GET'])
 def get_all_user_task(request, user_id):
     if request.method == 'GET':
@@ -29,7 +31,23 @@ def get_all_user_issue(request, user_id):
         user_with_issue = Issue.objects.all().filter(workers=user_id)
         return db_get(user_with_issue, IssueSerializer, Issue)
 
+@api_view(['GET'])
+def user_worktime_managing(request, user_id):
+    if request.method == 'GET':
+        all_tasks = Task.objects.all().filter(workers=user_id)
+        hoursTotal = calculate_total_days(all_tasks)
+        return JsonResponse({'workHours': hoursTotal})
 
+@api_view(['GET'])
+def getUserByName(request, user_name):
+    if request.method == 'GET':
+        user = User.objects.all().filter(last_name__startswith=user_name)
+        return db_get(user, UsersSerializer, User)
+
+
+
+
+# про project
 @api_view(['GET'])
 def get_all_user_projects(request, user_id):
     if request.method == 'GET':
@@ -47,17 +65,3 @@ def get_all_issue_for_project(request, project_id):
     if request.method == 'GET':
         issue_for_project = Issue.objects.all().filter(project_id=project_id)
         return db_get(issue_for_project, IssueSerializer, Issue)
-
-
-@api_view(['GET'])
-def user_worktime_managing(request, user_id):
-    if request.method == 'GET':
-        all_tasks = Task.objects.all().filter(workers=user_id)
-        hoursTotal = calculate_total_days(all_tasks)
-        return JsonResponse({'workHours': hoursTotal})
-
-@api_view(['GET'])
-def getUserByName(request, user_name):
-    if request.method == 'GET':
-        user = User.objects.all().filter(last_name__startswith=user_name)
-        return db_get(user, UsersSerializer, User)

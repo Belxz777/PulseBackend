@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, JobTitle, Project, Task, Issue
+from .models import User, JobTitle, Project, Task, Issue, Department
 
 
 class UsersSerializer(serializers.ModelSerializer):
@@ -52,7 +52,21 @@ class JobTitleSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get('name', instance.name)
         instance.save()
         return instance
+    
 
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ('id',
+                  'name',
+                  'head')
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.head = validated_data.get('head', instance.head)
+        instance.save()
+        return instance
+    
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:

@@ -8,17 +8,21 @@ class JobTitle(models.Model):
     name = models.CharField(max_length=50)
 
 
+class Department(models.Model):
+    name = models.CharField(max_length=50)
+    head = models.ForeignKey('User', on_delete=models.PROTECT)
+
 
 class Task(models.Model):
     MADE = 'G'
     PROGRESS = 'R'
     INTALK = 'O'
     STAGES = [
-(MADE,"Готово"),
-(PROGRESS,"В процессе"),
-(INTALK,"В обсуждении"),
+        (MADE,"Готово"),
+        (PROGRESS,"В процессе"),
+        (INTALK,"В обсуждении"),
     ]
-#только попробуй вырубить сервер
+
     project_id = models.ForeignKey('Project', on_delete=models.PROTECT)
     name = models.CharField(max_length=70)
     description = models.CharField(max_length=800)
@@ -42,7 +46,7 @@ class Issue(models.Model):
         (FIXED, "исправлено"),
         (NOT_FIXED, "требует исправления")
     ]
-    # только попробуй вырубить сервер
+
     project_id = models.ForeignKey('Project', on_delete=models.PROTECT)
     name = models.CharField(max_length=70)
     description = models.CharField(max_length=800)
@@ -56,8 +60,8 @@ class User(models.Model):
     WORKER = 'W'
     BOSS = 'B'
     STAGES = [
-(WORKER,"Работник"),
-(BOSS,"Руководитель"),
+        (WORKER,"Работник"),
+        (BOSS,"Руководитель"),
     ]
     job_title_id = models.ForeignKey(JobTitle, on_delete=models.PROTECT)
     avatar = models.CharField(max_length=800,default="https://www.svgrepo.com/show/192244/man-user.svg")
@@ -68,6 +72,7 @@ class User(models.Model):
     login = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     position = models.CharField(max_length=80 , choices=STAGES,default=WORKER)
+    department_id = models.ForeignKey(Department, on_delete=models.PROTECT, default=1)
 
 class AllUserTasks(generics.ListAPIView):
     class UserProjectsAndTasks(models.Model):

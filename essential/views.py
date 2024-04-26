@@ -1,8 +1,8 @@
 from rest_framework.decorators import api_view
 
 from .basic_comands import db_get, db_create, db_update, db_delete
-from .models import User, JobTitle, Project, Task, Issue
-from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer
+from .models import User, JobTitle, Project, Task, Issue, Department
+from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer
 
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
@@ -88,3 +88,20 @@ def issue_managing(request, id):
 
     elif request.method == 'DELETE':
         return db_delete(Issue, id)
+    
+
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+def Department_managing(request, id):
+    if request.method == 'GET':
+        department = Department.objects.all().filter(id=id)
+        return db_get(department, DepartmentSerializer)
+
+    elif request.method == 'POST':
+        return db_create(request, DepartmentSerializer)
+
+    elif request.method == 'PUT':
+        department = Department.objects.get(id=id)
+        return db_update(request, DepartmentSerializer, department)
+
+    elif request.method == 'DELETE':
+        return db_delete(Department, id)
