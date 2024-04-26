@@ -32,8 +32,7 @@ def db_create(request, Serializer=None):
 
 
 def db_update(request, Serializer=None, instanse=None):
-    data = JSONParser().parse(request)
-    serializer = Serializer(instanse, data=data)
+    serializer = Serializer(instanse, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data, status=200)

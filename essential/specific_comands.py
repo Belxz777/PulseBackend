@@ -71,3 +71,8 @@ def get_all_departments(request):
     if request.method == 'GET':
         departments = Department.objects.all()
         return db_get(departments, DepartmentSerializer, Department)
+
+def get_all_department_members(request, department_id):
+    if request.method == 'GET':
+            members = User.objects.all().filter(department_id=department_id)
+            return db_get(members, UsersSerializer, User)

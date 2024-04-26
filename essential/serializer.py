@@ -8,7 +8,6 @@ class UsersSerializer(serializers.ModelSerializer):
         fields = ('id',
                   'job_title_id',
                   'avatar',
-                  'avatar',
                   'age',
                   'first_name',
                   'last_name',
