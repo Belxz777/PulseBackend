@@ -74,9 +74,15 @@ class User(models.Model):
     position = models.CharField(max_length=80 , choices=STAGES,default=WORKER)
     department_id = models.ForeignKey(Department, on_delete=models.PROTECT, default=1)
     
-    
 class UserWIthTask(models.Model):
+    TASK = "T"
+    ISSUE = "I"
+    WORK_TYPES = [
+        (TASK,"task"),
+        (ISSUE,"issue"),
+    ]
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
-    task_id = models.ForeignKey(Task, on_delete=models.PROTECT)
+    work_type = models.CharField(max_length=80 , choices=WORK_TYPES,default="task")
+    work_id = models.ForeignKey(Task, on_delete=models.PROTECT)
     work_time = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=datetime.date.today)

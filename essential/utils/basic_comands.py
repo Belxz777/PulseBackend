@@ -2,7 +2,15 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 
+# взаимодействие с базой данных:
 
+# получение
+
+# добавление
+
+# обновление
+
+# удаление
 
 def db_get(objects=[], Serializer=None, curent_class=None):
     send_data = []

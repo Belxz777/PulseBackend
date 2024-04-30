@@ -31,5 +31,10 @@ urlpatterns = [
     path('userbyName/<user_name>',specific_comands.getUserByName),
 
     path('get_all_departments',specific_comands.get_all_departments),
-    path('get_all_department_members/<department_id>',specific_comands.get_all_department_members)
+    path('get_all_department_members/<department_id>',specific_comands.get_all_department_members),
+
+    path('get_all_UserWithTask_for_user/<user_id>',specific_comands.get_all_UserWithTask_for_user),
+    path('get_all_UserWithTask_for_task/<task_id>',specific_comands.get_all_UserWithTask_for_task),
+    path('get_all_UserWithTask_for_issue/<issue_id>',specific_comands.get_all_UserWithTask_for_issue),
+    path('get_all_UserWithTask_for_project/<project_id>',specific_comands.get_all_UserWithTask_for_project)
 ]

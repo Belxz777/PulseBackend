@@ -136,19 +136,21 @@ class IssueSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class UserWIthTaskSerializer(serializers.ModelSerializer):
+class UserWithTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserWIthTask
         fields = ('id',
                   'user_id',
-                  'task_id',
+                  'work_type',
+                  'work_id',
                   'work_time',
                   'created_at',
                   )
 
     def update(self, instance, validated_data):
         instance.user_id = validated_data.get('user_id', instance.user_id)
-        instance.task_id = validated_data.get('task_id', instance.task_id)
+        instance.work_type = validated_data.get('work_type', instance.work_type)
+        instance.work_id = validated_data.get('work_id', instance.work_id)
         instance.work_time = validated_data.get('work_time', instance.work_time)
         instance.created_at = validated_data.get('created_at', instance.created_at)
         instance.save()
