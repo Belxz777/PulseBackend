@@ -1,5 +1,7 @@
 from django.urls import path
-from . import views, specific_comands, token_managing
+
+from .utils import specific_comands, token_managing
+from . import views
 urlpatterns = [
     path('users/create',token_managing.RegisterView.as_view()),#для регистрации пользователей
     path("users/login",token_managing.LoginView.as_view()),#дяя входина
@@ -12,7 +14,8 @@ urlpatterns = [
     path("project/<id>",views.project_managing),
     path("task/<id>",views.task_managing),
     path("issue/<id>",views.issue_managing),
-    path("department/<id>",views.Department_managing),
+    path("department/<id>",views.department_managing),
+    path("user_with_task/<id>",views.user_withw_task_managing),
 
 
     path("all_job_titles", specific_comands.get_all_job_titles),

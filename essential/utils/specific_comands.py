@@ -5,9 +5,9 @@ from rest_framework.decorators import api_view
 
 from essential.utils.CalculateHours import calculate_total_days
 
-from .models import User, JobTitle, Project, Task, Issue, Department
-from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer
-from .basic_comands import db_get
+from ..models import User, JobTitle, Project, Task, Issue, Department
+from ..serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer
+from .utils.basic_comands import db_get
 
 # про job_title
 @api_view(['GET'])

@@ -73,15 +73,10 @@ class User(models.Model):
     password = models.CharField(max_length=100)
     position = models.CharField(max_length=80 , choices=STAGES,default=WORKER)
     department_id = models.ForeignKey(Department, on_delete=models.PROTECT, default=1)
-
-class AllUserTasks(generics.ListAPIView):
-    class UserProjectsAndTasks(models.Model):
-        user = models.ForeignKey(User, on_delete=models.CASCADE)
-        
-        def get_user_projects(self, user_id):
-            return Project.objects.filter(members=user_id)
-        
-        def get_user_tasks(self, user_id):
-            return Task.objects.filter(workers=user_id)
     
     
+class UserWIthTask(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    task_id = models.ForeignKey(Task, on_delete=models.PROTECT)
+    work_time = models.IntegerField(default=0)
+    created_at = models.DateTimeField(default=datetime.date.today)

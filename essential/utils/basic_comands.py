@@ -2,12 +2,9 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 
-from . import models
-from .models import User, JobTitle, Project, Task
-from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer
 
 
-def db_get(objects=[], Serializer=UsersSerializer(), curent_class=User()):
+def db_get(objects=[], Serializer=None, curent_class=None):
     send_data = []
 
     try:
