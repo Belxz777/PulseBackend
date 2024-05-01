@@ -102,13 +102,13 @@ def get_all_UserWithTask_for_user(request, user_id):
 @api_view(['GET'])
 def get_all_UserWithTask_for_task(request, task_id):
     if request.method == 'GET':
-        user_with_task = UserWIthTask.objects.all().filter(work_id=task_id, work_type = "task")
+        user_with_task = UserWIthTask.objects.all().filter(work_id=task_id, work_type = "T")
         return db_get(user_with_task, UserWithTaskSerializer, UserWIthTask)
     
 @api_view(['GET'])
 def get_all_UserWithTask_for_issue(request, issue_id):
     if request.method == 'GET':
-        user_with_task = UserWIthTask.objects.all().filter(work_id=issue_id, work_type = "issue")
+        user_with_task = UserWIthTask.objects.all().filter(work_id=issue_id, work_type = "I")
         return db_get(user_with_task, UserWithTaskSerializer, UserWIthTask)
     
 @api_view(['GET'])    
@@ -120,11 +120,11 @@ def get_all_UserWithTask_for_project(request, project_id):
         res = []
 
         for i in Tid:
-            user_with_task = UserWIthTask.objects.all().filter(work_id = i, work_type = "issue")
+            user_with_task = UserWIthTask.objects.all().filter(work_id = i, work_type = "T")
             for j in user_with_task:
                 res.append(j)
         for i in Iid:
-            user_with_task = UserWIthTask.objects.all().filter(work_id = i, work_type = "issue")
+            user_with_task = UserWIthTask.objects.all().filter(work_id = i, work_type = "I")
             for j in user_with_task:
                 res.append(j)
 

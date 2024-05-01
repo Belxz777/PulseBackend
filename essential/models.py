@@ -54,7 +54,7 @@ class Issue(models.Model):
     stageAt = models.CharField(max_length=30, choices=STAGES, default=NOT_FIXED)
     priority = models.IntegerField(default=0)
     workers = models.ManyToManyField('User')
-    created_at = models.DateTimeField(default=datetime.date.today)
+    created_at = models.DateField(default=datetime.date.today)
 
 class User(models.Model):
     WORKER = 'W'
@@ -70,7 +70,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=800)
     father_name = models.CharField(max_length=800)
     login = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=100) 
     position = models.CharField(max_length=80 , choices=STAGES,default=WORKER)
     department_id = models.ForeignKey(Department, on_delete=models.PROTECT, default=1)
     
@@ -85,4 +85,4 @@ class UserWIthTask(models.Model):
     work_type = models.CharField(max_length=80 , choices=WORK_TYPES,default="task")
     work_id = models.ForeignKey(Task, on_delete=models.PROTECT)
     work_time = models.IntegerField(default=0)
-    created_at = models.DateTimeField(default=datetime.date.today)
+    created_at = models.DateField(default=datetime.date.today)
