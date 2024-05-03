@@ -14,9 +14,9 @@ class Department(models.Model):
 
 
 class Task(models.Model):
-    MADE = 'G'
-    PROGRESS = 'R'
-    INTALK = 'O'
+    MADE = 'Готово'
+    PROGRESS = 'В процессе'
+    INTALK = 'В обсуждении'
     STAGES = [
         (MADE,"Готово"),
         (PROGRESS,"В процессе"),
@@ -71,7 +71,7 @@ class User(models.Model):
     father_name = models.CharField(max_length=800)
     login = models.CharField(max_length=100)
     password = models.CharField(max_length=100) 
-    position = models.CharField(max_length=80 , choices=STAGES,default=WORKER)
+    position = models.CharField(max_length=80 , choices=STAGES, default=WORKER)
     department_id = models.ForeignKey(Department, on_delete=models.PROTECT, default=1)
     
 class UserWIthTask(models.Model):
