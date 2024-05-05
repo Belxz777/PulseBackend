@@ -2,12 +2,17 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 
-from . import models
-from .models import User, JobTitle, Project, Task
-from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer
+# взаимодействие с базой данных:
 
+# получение
 
-def db_get(objects=[], Serializer=UsersSerializer(), curent_class=User()):
+# добавление
+
+# обновление
+
+# удаление
+
+def db_get(objects=[], Serializer=None, curent_class=None):
     send_data = []
 
     try:
@@ -32,8 +37,7 @@ def db_create(request, Serializer=None):
 
 
 def db_update(request, Serializer=None, instanse=None):
-    data = JSONParser().parse(request)
-    serializer = Serializer(instanse, data=data)
+    serializer = Serializer(instanse, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data, status=200)

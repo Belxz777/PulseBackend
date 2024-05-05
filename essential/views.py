@@ -1,11 +1,12 @@
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 
-from .basic_comands import db_get, db_create, db_update, db_delete
-from .models import User, JobTitle, Project, Task
-from .serializer import  UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer
+from .utils.basic_comands import db_get, db_create, db_update, db_delete
+from .models import User, JobTitle, Project, Task, Issue, Department, UserWIthTask
+from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer, UserWithTaskSerializer
 
 
-@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+@api_view(['GET', 'POST', 'DELETE', 'PATCH'])
 def user_managing(request, id):
     if request.method == 'GET':
         user = User.objects.all().filter(id=id)
@@ -14,15 +15,16 @@ def user_managing(request, id):
     elif request.method == 'POST':
         return db_create(request, UsersSerializer)
 
-    elif request.method == 'PUT':
+    elif request.method == 'PATCH':
         user = User.objects.get(id=id)
         return db_update(request, UsersSerializer, user)
-        
+
+
     elif request.method == 'DELETE':
         return db_delete(User, id)
 
 
-@api_view(['GET', 'POST', 'DELETE', "PUT"])
+@api_view(['GET', 'POST', 'DELETE', "PATCH"])
 def job_title_managing(request, id):
     if request.method == 'GET':
         job = JobTitle.objects.all().filter(id=id)
@@ -31,7 +33,7 @@ def job_title_managing(request, id):
     elif request.method == 'POST':
         return db_create(request, JobTitleSerializer)
 
-    elif request.method == 'PUT':
+    elif request.method == 'PATCH':
         job = JobTitle.objects.get(id=id)
         return db_update(request, JobTitleSerializer, job)
 
@@ -39,31 +41,28 @@ def job_title_managing(request, id):
         return db_delete(JobTitle, id)
 
 
-
-@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+@api_view(['GET', 'POST', 'DELETE', 'PATCH'])
 def project_managing(request, id):
-    project = Project.objects.all().filter(id=id)
-
     if request.method == 'GET':
-     
-        return db_get(project,ProjectSerializer)
+        project = Project.objects.all().filter(id=id)
+        return db_get(project, ProjectSerializer)
 
     elif request.method == 'POST':
         return db_create(request, ProjectSerializer)
 
-    elif request.method == 'PUT':
-        project = Project.objects.get(id=id) 
+    elif request.method == 'PATCH':
+        project = Project.objects.get(id=id)
         return db_update(request, ProjectSerializer, project)
 
     elif request.method == 'DELETE':
         return db_delete(Project, id)
 
+
 @api_view(['GET', 'POST', 'DELETE', 'PATCH'])
 def task_managing(request, id):
-    task = Task.objects.all().filter(id=id)
-
     if request.method == 'GET':
-        return db_get(task,ProjectSerializer)
+        task = Task.objects.all().filter(id=id)
+        return db_get(task, TaskSerializer)
 
     elif request.method == 'POST':
         return db_create(request, TaskSerializer)
@@ -75,40 +74,53 @@ def task_managing(request, id):
     elif request.method == 'DELETE':
         return db_delete(Task, id)
 
-def getAllUserProjects(request,user_id):
-        projects = Project.objects.all().filter(members=user_id)
-        return db_get(projects,ProjectSerializer)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-""" @api_view(['GET', 'POST', 'DELETE', 'PUT'])
-def user_with_task_managing(request, id):
-    user_with_task = UserWithTask.objects.all().filter(id=id)
-
+@api_view(['GET', 'POST', 'DELETE', 'PATCH'])
+def issue_managing(request, id):
     if request.method == 'GET':
-        return db_get(user_with_task, UserWithTaskSerializer, UserWithTask)
+        issue = Issue.objects.all().filter(id=id)
+        return db_get(issue, IssueSerializer)
 
     elif request.method == 'POST':
-        return db_create(request, UserWithTaskSerializer)
+        return db_create(request, IssueSerializer)
 
-    elif request.method == 'PUT':
-        uwt = UserWithTask.objects.get(id=id)
-        return db_update(request, UserWithTaskSerializer, uwt)
+    elif request.method == 'PATCH':
+        issue = Issue.objects.get(id=id)
+        return db_update(request, IssueSerializer, issue)
+
+    elif request.method == 'DELETE':
+        return db_delete(Issue, id)
+    
+
+@api_view(['GET', 'POST', 'DELETE', 'PATCH'])
+def department_managing(request, id):
+    if request.method == 'GET':
+        department = Department.objects.all().filter(id=id)
+        return db_get(department, DepartmentSerializer)
+
+    elif request.method == 'POST':
+        return db_create(request, DepartmentSerializer)
+
+    elif request.method == 'PATCH':
+        department = Department.objects.get(id=id)
+        return db_update(request, DepartmentSerializer, department)
+
+    elif request.method == 'DELETE':
+        return db_delete(Department, id)
+
+
+@api_view(['GET', 'POST', 'DELETE', 'PATCH'])
+def user_withw_task_managing(request, id):
+    if request.method == 'GET':
+        user_with_task = UserWIthTask.objects.all().filter(id=id)
+        return db_get(user_with_task, UserWithTaskSerializer)
+    
+    elif request.method == 'POST':
+        return db_create(request, UserWithTaskSerializer)
+    
+    elif request.method == 'PATCH':
+        user_with_task = UserWIthTask.objects.get(id=id)
+        return db_update(request, UserWithTaskSerializer, user_with_task)
     
     elif request.method == 'DELETE':
-        return db_delete(UserWithTask, id) """
+        return db_delete(UserWIthTask, id)
