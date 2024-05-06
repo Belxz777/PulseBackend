@@ -42,13 +42,12 @@ media
 # IntelliJ
 out/
 
-# JIRA plugin
-atlassian-ide-plugin.xml
+
 
 # Python # 
 *.py[cod] 
 *$py.class 
-.idea/
+
 # Distribution / packaging 
 .Python build/ 
 develop-eggs/ 
