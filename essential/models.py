@@ -3,7 +3,7 @@ import datetime
 import django
 from django.db import models
 from rest_framework import generics
-
+import datetime
 class JobTitle(models.Model):
     name = models.CharField(max_length=50)
 
@@ -14,6 +14,9 @@ class Department(models.Model):
 
 
 class Task(models.Model):
+    MADE = 'Готово'
+    PROGRESS = 'В процессе'
+    INTALK = 'В обсуждении'
     MADE = 'Готово'
     PROGRESS = 'В процессе'
     INTALK = 'В обсуждении'
@@ -71,8 +74,8 @@ class User(models.Model):
     father_name = models.CharField(max_length=800)
     login = models.CharField(max_length=100)
     password = models.CharField(max_length=100) 
-    position = models.CharField(max_length=80 , choices=STAGES, default=WORKER)
-    department_id = models.ForeignKey(Department, on_delete=models.PROTECT, default=1)
+    position = models.CharField(max_length=80 , choices=STAGES,default=WORKER)
+    department_id = models.ForeignKey(Department, on_delete=models.PROTECT,null=True)
     
 class UserWIthTask(models.Model):
     TASK = "T"

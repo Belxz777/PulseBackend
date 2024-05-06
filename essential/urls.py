@@ -7,6 +7,9 @@ urlpatterns = [
     path("users/login",token_managing.LoginView.as_view()),#дяя входина
     path("users/auth",token_managing.UserView.as_view()),
     path('users/refresh',token_managing.refresh_token),
+    
+
+
 
 
     path("user/<id>",views.user_managing),

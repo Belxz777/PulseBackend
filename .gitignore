@@ -42,13 +42,13 @@ media
 # IntelliJ
 out/
 
-# JIRA plugin
-atlassian-ide-plugin.xml
+
 
 # Python # 
 *.py[cod] 
 *$py.class 
-.idea/
+#Не обращать внимания на миграции 
+**/migrations/
 # Distribution / packaging 
 .Python build/ 
 develop-eggs/ 
@@ -136,3 +136,10 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# для корректной работы
+# после внесения изменений в.gitignore нужно выполнить команды:
+#git rm -r --cached .
+#git add .
+#git commit -m "Ignore migration files"
+#
