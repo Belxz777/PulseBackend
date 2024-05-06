@@ -47,7 +47,8 @@ out/
 # Python # 
 *.py[cod] 
 *$py.class 
-
+#Не обращать внимания на миграции 
+**/migrations/
 # Distribution / packaging 
 .Python build/ 
 develop-eggs/ 
