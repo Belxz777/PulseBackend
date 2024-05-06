@@ -2,13 +2,17 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.views import APIView
+from rest_framework.parsers import JSONParser
+
 import jwt,datetime
 
 from ..models import User
 from ..serializer import UsersSerializer
 class RegisterView(APIView):
     def post(self, request):
-        serializer = UsersSerializer(data=request.data)
+        print(request.data)
+        data = JSONParser().parse(request)
+        serializer = UsersSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=201)

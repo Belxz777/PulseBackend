@@ -17,6 +17,9 @@ class Task(models.Model):
     MADE = 'Готово'
     PROGRESS = 'В процессе'
     INTALK = 'В обсуждении'
+    MADE = 'Готово'
+    PROGRESS = 'В процессе'
+    INTALK = 'В обсуждении'
     STAGES = [
         (MADE,"Готово"),
         (PROGRESS,"В процессе"),

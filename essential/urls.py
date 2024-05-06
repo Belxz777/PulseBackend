@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .utils import specific_comands, token_managing
+from .utils import specific_comands, token_managing, generating_reports
 from . import views
 urlpatterns = [
     path('users/create',token_managing.RegisterView.as_view()),#для регистрации пользователей
@@ -39,5 +39,7 @@ urlpatterns = [
     path('get_all_UserWithTask_for_user/<user_id>',specific_comands.get_all_UserWithTask_for_user),
     path('get_all_UserWithTask_for_task/<task_id>',specific_comands.get_all_UserWithTask_for_task),
     path('get_all_UserWithTask_for_issue/<issue_id>',specific_comands.get_all_UserWithTask_for_issue),
-    path('get_all_UserWithTask_for_project/<project_id>',specific_comands.get_all_UserWithTask_for_project)
+    path('get_all_UserWithTask_for_project/<project_id>',specific_comands.get_all_UserWithTask_for_project),
+
+    path('get_report_for_department/<department_id>', generating_reports.department_report)
 ]

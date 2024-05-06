@@ -148,6 +148,5 @@ class UserWithTaskSerializer(serializers.ModelSerializer):
         instance.work_type = validated_data.get('work_type', instance.work_type)
         instance.work_id = validated_data.get('work_id', instance.work_id)
         instance.work_time = validated_data.get('work_time', instance.work_time)
-        instance.created_at = validated_data.get('created_at', instance.created_at)
         instance.save()
         return instance
