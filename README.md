@@ -15,10 +15,19 @@
 
 
 Команды для ручного запуска приложения:
+
+
 1.Pip install requirements.txt (при первом запуске для установки зависимостей)
-2.Python manage.py makemigrations (для создания миграции)
-3.Python manage.py migrate (для применения миграции)
+
+
+2.Python manage.py makemigrations  essential (для создания миграции)
+
+
+3.Python manage.py migrate essential (для применения миграции)
+
+
 4.Python manage.py runserver (для запуска сервера)
+
 
 Также возможен запуск через докер:
 
@@ -41,6 +50,12 @@ docker-compose up  --build
 
 
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+
+
+Для просмотра документации эндпоинтов общаться по роуту:
+
+/docs
+
 
 По всем вопросам и предложениям обращаться:
 
