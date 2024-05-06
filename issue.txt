@@ -1,7 +1,0 @@
-не могу исправить ошибку djangojiraclone-backend-1  | django.db.utils.OperationalError: connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection 
-refused
-djangojiraclone-backend-1  |    Is the server running on that host and accepting TCP/IP connections?
-djangojiraclone-backend-1  | connection to server at "localhost" (::1), port 5432 failed: Cannot assign requested address
-djangojiraclone-backend-1  |    Is the server running on that host and accepting TCP/IP connections?
-
-уже пыталься менять localhost на db но не помогает , не знаю что делать

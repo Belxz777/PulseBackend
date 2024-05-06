@@ -3,4 +3,3 @@ docker system prune для чистки всех картинок и отста�
   - all networks not used by at least one container
   - all dangling images
   - all dangling build cache
-

@@ -136,3 +136,10 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# для корректной работы
+# после внесения изменений в.gitignore нужно выполнить команды:
+#git rm -r --cached .
+#git add .
+#git commit -m "Ignore migration files"
+#
