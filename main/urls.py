@@ -26,16 +26,16 @@ from django.conf import settings
 schema_view = get_schema_view(
     openapi.Info(
         title="Документация API",
-        default_version='v1',),
+        default_version='v1'),
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=(permissions.AllowAny),
 )
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('essential.urls')),
-    path('docs/', schema_view.with_ui('swagger', cache_timeout=0),name='schema-swagger-ui'),
+    path('', schema_view.with_ui('swagger', cache_timeout=0),name='schema-swagger-ui'),
 
 ]
 
