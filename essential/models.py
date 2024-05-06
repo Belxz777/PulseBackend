@@ -72,7 +72,7 @@ class User(models.Model):
     login = models.CharField(max_length=100)
     password = models.CharField(max_length=100) 
     position = models.CharField(max_length=80 , choices=STAGES,default=WORKER)
-    department_id = models.ForeignKey(Department, on_delete=models.PROTECT, default=1)
+    department_id = models.ForeignKey(Department, on_delete=models.PROTECT,null=True)
     
 class UserWIthTask(models.Model):
     TASK = "T"
