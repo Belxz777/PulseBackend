@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from celery import shared_task
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 
@@ -8,8 +9,17 @@ from essential.utils.CalculateHours import calculate_total_days
 from ..models import User, JobTitle, Project, Task, Issue, Department, UserWIthTask
 from ..serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer, UserWithTaskSerializer
 from .basic_comands import db_get
-
+import datetime
 # про job_title
+# from django.utils import timezone
+# from datetime import timedelta
+
+# @shared_task
+# def delete_old_tasks(request):
+#     two_days_ago = timezone.now() - timedelta(days=2)
+#     old_tasks = Task.objects.filter(created_at__lte=two_days_ago)
+#     old_tasks.delete()
+#     return JsonResponse({'message': 'Old tasks deleted successfully'})
 
 @api_view(['GET'])
 def get_all_job_titles(request):
@@ -33,12 +43,15 @@ def get_all_user_issue(request, user_id):
     if request.method == 'GET':
         user_with_issue = Issue.objects.all().filter(workers=user_id)
         return db_get(user_with_issue, IssueSerializer, Issue)
-
 @api_view(['GET'])
 def user_worktime_managing(request, user_id):
     if request.method == 'GET':
+        time = datetime.date.today()
         all_tasks = Task.objects.all().filter(workers=user_id)
-        hoursTotal = calculate_total_days(all_tasks)
+        hoursTotal = 0
+        for task in all_tasks:
+            if task.created_at.month == time.month:
+                hoursTotal += calculate_total_days(task)
         return JsonResponse({'workHours': hoursTotal})
 
 @api_view(['GET'])
@@ -47,15 +60,20 @@ def getUserByName(request, user_name):
         user = User.objects.all().filter(last_name__startswith=user_name)
         return db_get(user, UsersSerializer, User)
 
+@api_view(['GET'])
+def getProjectByName(request, user_name):
 
+    if request.method == 'GET':
+        project= Project.objects.all().filter(last_name__startswith=user_name)
+        return db_get(project, ProjectSerializer, Project)
 
 
 # про project
 
 @api_view(['GET'])
-def get_all_user_projects(request, user_id):
+def get_all_user_projects(request, name):
     if request.method == 'GET':
-        user_with_task = Project.objects.all().filter(members=user_id)
+        user_with_task = Project.objects.all().filter(members=name)
         return db_get(user_with_task, ProjectSerializer, Project)
 
 @api_view(['GET'])

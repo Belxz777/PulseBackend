@@ -4,11 +4,28 @@ from rest_framework.decorators import api_view
 from .utils.basic_comands import db_get, db_create, db_update, db_delete
 from .models import User, JobTitle, Project, Task, Issue, Department, UserWIthTask
 from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer, UserWithTaskSerializer
-
-
+from django.core.cache import cache
+from celery import shared_task
+import datetime
+@shared_task
+def delete_expired_tasks():
+    expired_tasks = Task.objects.filter(status="готово", updated_at__lte=datetime.date.today()-datetime.timedelta(days=2))
+    expired_tasks.delete()
+    print('Deleted',expired_tasks.count())
 @api_view(['GET', 'POST', 'DELETE', 'PATCH'])
 def user_managing(request, id):
     if request.method == 'GET':
+    #    userDataChache = cache.get('userData')
+    #    if userDataChache is None:
+    #     userDataChache = User.objects.all().filter(id=id)
+    #     cache.set('userData', userDataChache, 10)
+    #    else:
+    #     total = userDataChache
+    #     print(userDataChache)
+
+        
+
+
         user = User.objects.all().filter(id=id)
         return db_get(user, UsersSerializer, User)
 

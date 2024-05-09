@@ -28,10 +28,11 @@ urlpatterns = [
 
     path("all_user_task/<user_id>", specific_comands.get_all_user_task),
     path("all_user_issue/<user_id>", specific_comands.get_all_user_issue),
-    path("all_user_projects/<user_id>", specific_comands.get_all_user_projects),
+    path("all_user_projects/<name>", specific_comands.get_all_user_projects),
 
     path('user_worktime/<user_id>',specific_comands.user_worktime_managing),
     path('userbyName/<user_name>',specific_comands.getUserByName),
+    path('projectByName/<project_name>',specific_comands.getProjectByName),
 
     path('get_all_departments',specific_comands.get_all_departments),
     path('get_all_department_members/<department_id>',specific_comands.get_all_department_members),
