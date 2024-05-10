@@ -9,6 +9,7 @@ from pdfdocument.document import PDFDocument
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import letter, A4
 
 
@@ -36,7 +37,12 @@ def hello(data=None,department_id = 0):
     delta_y_for_name = 30
     delta_y_for_work = 20
 
+
+    styles = getSampleStyleSheet()
+    styles['Normal'].fontName='DejaVuSerif'
+    styles['Heading1'].fontName='DejaVuSerif'
     pdfmetrics.registerFont(TTFont('DejaVuSerif','DejaVuSerif.ttf', 'UTF-8'))
+    
     response = HttpResponse(content_type='application/pdf') 
     response['Content-Disposition'] = 'filename="file.pdf"'
    
