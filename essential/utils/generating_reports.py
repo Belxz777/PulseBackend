@@ -37,11 +37,13 @@ def hello(data=None,department_id = 0):
     delta_y_for_name = 30
     delta_y_for_work = 20
 
+    current_font = "FreeSans"
 
-    styles = getSampleStyleSheet()
-    styles['Normal'].fontName='DejaVuSerif'
-    styles['Heading1'].fontName='DejaVuSerif'
-    pdfmetrics.registerFont(TTFont('DejaVuSerif','DejaVuSerif.ttf', 'UTF-8'))
+
+    # styles = getSampleStyleSheet()
+    # styles['Normal'].fontName='DejaVuSerif'
+    # styles['Heading1'].fontName='DejaVuSerif'
+    pdfmetrics.registerFont(TTFont(current_font,current_font+"/"+current_font+".ttf"))
     
     response = HttpResponse(content_type='application/pdf') 
     response['Content-Disposition'] = 'filename="file.pdf"'
@@ -51,22 +53,22 @@ def hello(data=None,department_id = 0):
     d = Department.objects.get(id = department_id)
     c.setTitle('Отчёт по отделу "' + d.name + '" за ' + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
 
-    c.setFont("DejaVuSerif",15)
-    title_w = c.stringWidth('Отчёт по отделу "' + d.name + '" за ' + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"),"DejaVuSerif",15)
+    c.setFont(current_font,15)
+    title_w = c.stringWidth('Отчёт по отделу "' + d.name + '" за ' + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"),current_font,15)
     c.drawString(w/2-title_w/2,start_y, 'Отчёт по отделу "' + d.name + '" за ' + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
     start_y = start_y - delta_y_for_name*2
 
     for i in data:
             
             user = User.objects.get(id = int(i))
-            c.setFont("DejaVuSerif",20)
+            c.setFont(current_font,20)
             c.drawString(name_x,start_y, user.last_name + " " + user.first_name + " " + user.father_name)
             start_y = start_y - delta_y_for_name
 
             
             for j in data[i]:
 
-                c.setFont("DejaVuSerif",10)
+                c.setFont(current_font,10)
                 
 
                 if j["work_type"] == "T":
