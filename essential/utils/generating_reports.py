@@ -37,12 +37,9 @@ def hello(data=None,department_id = 0):
     delta_y_for_name = 30
     delta_y_for_work = 20
 
+    # "MIROSLN", "FreeSans"
     current_font = "FreeSans"
 
-
-    # styles = getSampleStyleSheet()
-    # styles['Normal'].fontName='DejaVuSerif'
-    # styles['Heading1'].fontName='DejaVuSerif'
     pdfmetrics.registerFont(TTFont(current_font,current_font+"/"+current_font+".ttf"))
     
     response = HttpResponse(content_type='application/pdf') 
