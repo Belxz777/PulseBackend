@@ -1,5 +1,5 @@
 
-import datetime
+
 import django
 from django.db import models
 from rest_framework import generics
@@ -33,7 +33,7 @@ class Task(models.Model):
     stageAt = models.CharField(max_length=20,choices=STAGES,default=INTALK)
     priority = models.IntegerField(default=0)
     workers = models.ManyToManyField('User')
-    created_at = models.DateField(default=datetime.date.today)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
 
 class Project(models.Model):
     name = models.CharField(max_length=70)
@@ -43,20 +43,19 @@ class Project(models.Model):
 
 class Issue(models.Model):
 
-    FIXED = 'F'
-    NOT_FIXED = 'N'
+    FIXED = 'Закрыто'
+    NOT_FIXED = 'Открыто'
     STAGES = [
-        (FIXED, "исправлено"),
-        (NOT_FIXED, "требует исправления")
+        (FIXED, "Closed"),
+        (NOT_FIXED, "Open")
     ]
 
     project_id = models.ForeignKey('Project', on_delete=models.PROTECT)
     name = models.CharField(max_length=70)
     description = models.CharField(max_length=800)
     hoursToAccomplish = models.IntegerField(default=0)
-    stageAt = models.CharField(max_length=30, choices=STAGES, default=NOT_FIXED)
-    priority = models.IntegerField(default=0)
-    workers = models.ManyToManyField('User')
+    status = models.CharField(max_length=30, choices=STAGES, default=NOT_FIXED)
+    author = models.ForeignKey("User", on_delete=models.PROTECT)
     created_at = models.DateField(default=datetime.date.today)
 
 class User(models.Model):

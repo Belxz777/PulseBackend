@@ -114,10 +114,9 @@ class IssueSerializer(serializers.ModelSerializer):
                   'project_id',
                   'name',
                   'description',
-                  'hoursToAccomplish',
-                  'stageAt',
-                  'priority',
-                  'workers',
+                  "status", 
+                  'author',
+                  'created_at',
                   )
     def update(self, instance, validated_data):
         instance.project_id = validated_data.get('project_id', instance.project_id)

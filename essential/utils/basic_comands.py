@@ -14,7 +14,6 @@ from rest_framework.response import Response
 
 def db_get(objects=[], Serializer=None, curent_class=None):
     send_data = []
-
     try:
         for i in objects:
             serializer = Serializer(i)
