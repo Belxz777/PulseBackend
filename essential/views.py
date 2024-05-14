@@ -82,6 +82,7 @@ def task_managing(request, id):
         return db_get(task, TaskSerializer)
 
     elif request.method == 'POST':
+        print(datetime.datetime.now())
         return db_create(request, TaskSerializer)
 
     elif request.method == 'PATCH':

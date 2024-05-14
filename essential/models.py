@@ -53,8 +53,7 @@ class Issue(models.Model):
     project_id = models.ForeignKey('Project', on_delete=models.PROTECT)
     name = models.CharField(max_length=70)
     description = models.CharField(max_length=800)
-    hoursToAccomplish = models.IntegerField(default=0)
-    status = models.CharField(max_length=30, choices=STAGES, default=NOT_FIXED)
+    status = models.CharField(max_length=30, choices=STAGES, default=NOT_FIXED,null=True)
     author = models.ForeignKey("User", on_delete=models.PROTECT)
     created_at = models.DateField(default=datetime.date.today)
 
