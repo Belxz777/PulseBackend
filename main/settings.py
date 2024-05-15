@@ -2,14 +2,14 @@
 
 import os
 from pathlib import Path
-from celery import Celery
+# from celery import Celery
 
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-app = Celery('main')
+# app = Celery('main')
 
 SECRET_KEY ='django-insecure-%xr3kz0z7d3jpo!t%c6%&wkvra=6lm=5qx+#ua8zu#184l#he@'
 

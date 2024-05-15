@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from celery import shared_task
+# from celery import shared_task
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 

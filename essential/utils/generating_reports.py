@@ -1,10 +1,10 @@
 from datetime import datetime
-from io import BytesIO
+import io
+import xlsxwriter
 from django.http import FileResponse, JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
 from ..models import User, JobTitle, Project, Task, Issue, Department, UserWIthTask
 from ..serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer, UserWithTaskSerializer
-from pdfdocument.document import PDFDocument
 
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
@@ -91,3 +91,14 @@ def hello(data=None,department_id = 0):
     c.save()
 
     return response
+
+def export_page(request):
+
+    buffer = io.BytesIO()
+    workbook = xlsxwriter.Workbook(buffer)
+    worksheet = workbook.add_worksheet()
+    worksheet.write('A1', 'текст')
+    workbook.close()
+    buffer.seek(0)
+
+    return FileResponse(buffer, as_attachment=False, filename='report.xlsx')
