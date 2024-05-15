@@ -51,6 +51,7 @@ def user_worktime_managing(request, user_id):
         hoursTotal = 0
         for task in all_tasks:
             if task.created_at.month == time.month:
+                print(task.created_at.time,time.month)
                 hoursTotal += calculate_total_days(task)
         return JsonResponse({'workHours': hoursTotal})
 
