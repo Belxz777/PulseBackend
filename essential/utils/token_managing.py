@@ -6,6 +6,8 @@ from rest_framework.parsers import JSONParser
 
 import jwt,datetime
 
+from essential.utils.basic_comands import db_get
+
 from ..models import User
 from ..serializer import UsersSerializer
 class RegisterView(APIView):
@@ -24,10 +26,13 @@ class LoginView(APIView):
         login = data['login']
         password = data['password']
         user = User.objects.filter(login=login).first()
+        
+        print(user)
         if user is None:
             raise AuthenticationFailed('Нету такого пользователя')
         if not user.password == password:
             raise AuthenticationFailed('Неверный пароль')
+        
         payload = {
             'user': user.id,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(days=10),
@@ -38,9 +43,9 @@ class LoginView(APIView):
         response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
             'message': 'Успешно логинизировлись',
-            'token': token
+            'token': token,
         }
-        return response
+        return response 
 
 
 class UserView(APIView):

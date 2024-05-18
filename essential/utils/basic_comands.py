@@ -27,8 +27,9 @@ def db_get(objects=[], Serializer=None, curent_class=None):
 
 
 def db_create(request, Serializer=None):
+    print(request)
     data = JSONParser().parse(request)
-    serializer = Serializer(data=data)
+    serializer = Serializer(data=data)  
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data, status=200)

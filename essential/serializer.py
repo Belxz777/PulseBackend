@@ -45,7 +45,7 @@ class JobTitleSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobTitle
         fields = ('id',
-                  'name',)
+                  'name')
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.save()
@@ -92,7 +92,7 @@ class TaskSerializer(serializers.ModelSerializer):
                   'stageAt',
                   'priority',
                   'workers',
-                  'created_at',
+                  'created_at'
                       )
 
     def update(self, instance, validated_data):
@@ -114,7 +114,7 @@ class IssueSerializer(serializers.ModelSerializer):
                   'project_id',
                   'name',
                   'description',
-                  "status", 
+                  'status', 
                   'author',
                   'created_at',
                   )

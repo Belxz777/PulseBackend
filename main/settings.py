@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'drf_yasg',
-    'rest_framework_swagger',      
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -132,13 +132,13 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 
-CELERY_URL ="redis://127.0.0.1:6379/0"
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://redis:6379",
-        "OPTIONS": {
-        "db":"1"
-        }
-    }
-}
+# CELERY_URL ="redis://127.0.0.1:6379/0"
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": "redis://redis:6379",
+#         "OPTIONS": {
+#         "db":"1"
+#         }
+#     }
+# }
