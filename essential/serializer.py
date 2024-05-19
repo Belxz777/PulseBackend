@@ -118,16 +118,8 @@ class IssueSerializer(serializers.ModelSerializer):
                   'author',
                   'created_at',
                   )
-    def update(self, instance, validated_data):
-        instance.project_id = validated_data.get('project_id', instance.project_id)
-        instance.name = validated_data.get('name', instance.name)
-        instance.description = validated_data.get('description', instance.description)
-        instance.save()
-        return instance
     def updateStage(self, instance, validated_data):
-        instance.stageAt = validated_data.get('stageAt', instance.stageAt)
-        instance.priority = validated_data.get('priority', instance.priority)
-        instance.workers.set(validated_data['workers'])
+        instance.stageAt = validated_data.get('status', instance.status)
         instance.save()
         return instance
 
