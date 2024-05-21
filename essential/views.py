@@ -97,7 +97,7 @@ def task_managing(request, id):
 def issue_managing(request, id):
     if request.method == 'GET':
         issue = Issue.objects.all().filter(id=id)
-        return db_get(issue, IssueSerializer)
+        return db_get(issue, IssueSerializer, Issue)
 
     elif request.method == 'POST':
         return db_create(request, IssueSerializer)

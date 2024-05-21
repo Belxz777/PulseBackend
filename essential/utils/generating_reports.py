@@ -1,10 +1,10 @@
 from datetime import datetime
-from io import BytesIO
+import io
+import xlsxwriter
 from django.http import FileResponse, JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
 from ..models import User, JobTitle, Project, Task, Issue, Department, UserWIthTask
 from ..serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer, UserWithTaskSerializer
-from pdfdocument.document import PDFDocument
 
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
@@ -23,71 +23,176 @@ def department_report(request,department_id):
         
         for i in users:
             user_with_task[str(i.id)] = list(UserWIthTask.objects.filter(user_id = i.id).values())
+        print(user_with_task)
 
-        return HttpResponse(hello(user_with_task,department_id), content_type='application/pdf')
+        return export_page(user_with_task,department_id)
 
 
-def hello(data=None,department_id = 0):
+def export_page(data=None,department_id = 0):
 
-    w,h = A4
+    _x = 0
+    _y_name = 0
+    _y_work = 0
+    _y_colomns = 0
 
-    name_x = 20
-    work_x = 50
-    start_y = h-h/20
-    delta_y_for_name = 30
-    delta_y_for_work = 20
-
-    # "MIROSLN", "FreeSans"
-    current_font = "FreeSans"
-
-    pdfmetrics.registerFont(TTFont(current_font,current_font+"/"+current_font+".ttf"))
-    
-    response = HttpResponse(content_type='application/pdf') 
-    response['Content-Disposition'] = 'filename="file.pdf"'
-   
-    c = canvas.Canvas(response,pagesize=A4)  
+    name_colomns = ["id","Фамилия","Имя","Отчество","Должность","Статус","Время работы"]
+    work_colomns = ["id сотрудника","дата","прокт","тип работы","задача|исправление","время работы"]
 
     d = Department.objects.get(id = department_id)
-    c.setTitle('Отчёт по отделу "' + d.name + '" за ' + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
 
-    c.setFont(current_font,15)
-    title_w = c.stringWidth('Отчёт по отделу "' + d.name + '" за ' + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"),current_font,15)
-    c.drawString(w/2-title_w/2,start_y, 'Отчёт по отделу "' + d.name + '" за ' + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
-    start_y = start_y - delta_y_for_name*2
+    buffer = io.BytesIO()
+    workbook = xlsxwriter.Workbook(buffer)
+    worksheet_names = workbook.add_worksheet("сотрудники")
+    worksheet_works = workbook.add_worksheet("выполненная работа")
+
+    bold = workbook.add_format({'bold': True})
+
+    for i in name_colomns:
+        worksheet_names.write(_x,_y_colomns,i,bold)
+        _y_colomns += 1
+    _y_colomns = 0
+    for i in work_colomns:
+        worksheet_works.write(_x,_y_colomns,i,bold)
+        _y_colomns += 1
+    _x = _x + 1
 
     for i in data:
             
-            user = User.objects.get(id = int(i))
-            c.setFont(current_font,20)
-            c.drawString(name_x,start_y, user.last_name + " " + user.first_name + " " + user.father_name)
-            start_y = start_y - delta_y_for_name
+            user = list(User.objects.filter(id = int(i)).values())
+            user = user[0]
+            print(user)
 
-            
+            worksheet_names.write(_x,_y_name, i)
+            _y_name += 1
+            worksheet_names.write(_x,_y_name, user["last_name"])
+            _y_name += 1
+            worksheet_names.write(_x,_y_name,user["first_name"])
+            _y_name += 1
+            worksheet_names.write(_x,_y_name,user["father_name"])
+            _y_name += 1
+            worksheet_names.write(_x,_y_name,JobTitle.objects.get(id = int(user["job_title_id_id"])).name)
+            _y_name += 1
+            worksheet_names.write(_x,_y_name, user["position"])
+            _y_name += 1
+            worksheet_names.write(_x,_y_name, "ща будет")
+            _y_name += 1
+
+            _x = _x + 1
+
             for j in data[i]:
-
-                c.setFont(current_font,10)
-                
-
+                _y_work = 0
                 if j["work_type"] == "T":
+
                     work = Task.objects.get(id = int(j["work_id_id"]))
                     p = Project.objects.get(id = work.project_id_id)
-                    c.drawString(work_x,start_y, j["created_at"].strftime("%d/%m/%Y") + ' - "' + p.name + '" : задача "' + work.name + '" - ' + str(j["work_time"]) + " часов")
-                    start_y = start_y - delta_y_for_work
 
-                elif j["work_type"] == "I":
+                    worksheet_works.write(_x, _y_work, i)
+                    _y_work += 1
+                    worksheet_works.write(_x, _y_work, j["created_at"].strftime("%d/%m/%Y"))
+                    _y_work += 1
+                    worksheet_works.write(_x, _y_work, p.name)
+                    _y_work += 1
+                    worksheet_works.write(_x, _y_work,"задача")
+                    _y_work += 1
+                    worksheet_works.write(_x, _y_work, work.name)
+                    _y_work += 1
+                    worksheet_works.write(_x, _y_work, str(j["work_time"]))
+
+                    _x = _x + 1
+
+                if j["work_type"] == "I":
+                    
                     work = Issue.objects.get(id = int(j["work_id_id"]))
                     p = Project.objects.get(id = work.project_id_id)
-                    c.drawString(work_x,start_y, j["created_at"].strftime("%d/%m/%Y") + ' - "' + p.name + '" : ошибка "' + work.name + '" - ' + str(j["work_time"]) + " часов")
-                    start_y = start_y - delta_y_for_work
-            
-                if start_y < h/20:
-                    c.showPage()
-                    start_y = h-h/20
 
-            start_y = start_y - delta_y_for_work
+                    worksheet_works.write(_x, _y_work, i)
+                    _y_work += 1
+                    worksheet_works.write(_x, _y_work, j["created_at"].strftime("%d/%m/%Y"))
+                    _y_work += 1
+                    worksheet_works.write(_x, _y_work, p.name)
+                    _y_work += 1
+                    worksheet_works.write(_x, _y_work, "ошибка")
+                    _y_work += 1
+                    worksheet_works.write(_x, _y_work, work.name)
+                    _y_work += 1
+                    worksheet_works.write(_x, _y_work, str(j["work_time"]))
+
+                    _x = _x + 1
+                    
+    worksheet_works.autofit()
+    worksheet_names.autofit()
+    workbook.close()
+    buffer.seek(0)
+    f_name = d.name + "-" + datetime.now().strftime("%d.%m.%Y")+".xlsx"
+    print(f_name)
+
+    return FileResponse(buffer, as_attachment=False, filename = f_name)
+
+
+
+
+
+# def hello(data=None,department_id = 0):
+
+#     w,h = A4
+
+#     name_x = 20
+#     work_x = 50
+#     start_y = h-h/20
+#     delta_y_for_name = 30
+#     delta_y_for_work = 20
+
+#     # "MIROSLN", "FreeSans"
+#     current_font = "FreeSans"
+
+#     pdfmetrics.registerFont(TTFont(current_font,current_font+"/"+current_font+".ttf"))
+    
+#     response = HttpResponse(content_type='application/pdf') 
+#     response['Content-Disposition'] = 'filename="file.pdf"'
+   
+#     c = canvas.Canvas(response,pagesize=A4)  
+
+#     d = Department.objects.get(id = department_id)
+#     c.setTitle('Отчёт по отделу "' + d.name + '" за ' + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
+
+#     c.setFont(current_font,15)
+#     title_w = c.stringWidth('Отчёт по отделу "' + d.name + '" за ' + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"),current_font,15)
+#     c.drawString(w/2-title_w/2,start_y, 'Отчёт по отделу "' + d.name + '" за ' + datetime.now().strftime("%d/%m/%Y, %H:%M:%S"))
+#     start_y = start_y - delta_y_for_name*2
+
+#     for i in data:
+            
+#             user = User.objects.get(id = int(i))
+#             c.setFont(current_font,20)
+#             c.drawString(name_x,start_y, user.last_name + " " + user.first_name + " " + user.father_name)
+#             start_y = start_y - delta_y_for_name
+
+            
+#             for j in data[i]:
+
+#                 c.setFont(current_font,10)
+                
+
+#                 if j["work_type"] == "T":
+#                     work = Task.objects.get(id = int(j["work_id_id"]))
+#                     p = Project.objects.get(id = work.project_id_id)
+#                     c.drawString(work_x,start_y, j["created_at"].strftime("%d/%m/%Y") + ' - "' + p.name + '" : задача "' + work.name + '" - ' + str(j["work_time"]) + " часов")
+#                     start_y = start_y - delta_y_for_work
+
+#                 elif j["work_type"] == "I":
+#                     work = Issue.objects.get(id = int(j["work_id_id"]))
+#                     p = Project.objects.get(id = work.project_id_id)
+#                     c.drawString(work_x,start_y, j["created_at"].strftime("%d/%m/%Y") + ' - "' + p.name + '" : ошибка "' + work.name + '" - ' + str(j["work_time"]) + " часов")
+#                     start_y = start_y - delta_y_for_work
+            
+#                 if start_y < h/20:
+#                     c.showPage()
+#                     start_y = h-h/20
+
+#             start_y = start_y - delta_y_for_work
 
     
-    c.showPage()
-    c.save()
+#     c.showPage()
+#     c.save()
 
-    return response
+#     return response
