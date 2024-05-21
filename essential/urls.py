@@ -43,5 +43,4 @@ urlpatterns = [
     path('get_all_UserWithTask_for_project/<project_id>',specific_comands.get_all_UserWithTask_for_project),
 
     path('get_report_for_department/<department_id>', generating_reports.department_report),
-    path('export_page', generating_reports.export_page),
 ]

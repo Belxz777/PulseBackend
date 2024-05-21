@@ -30,7 +30,8 @@ def department_report(request,department_id):
 
 def export_page(data=None,department_id = 0):
 
-    _x = 0
+    _x_name = 0
+    _x_work = 0
     _y_name = 0
     _y_work = 0
     _y_colomns = 0
@@ -48,77 +49,82 @@ def export_page(data=None,department_id = 0):
     bold = workbook.add_format({'bold': True})
 
     for i in name_colomns:
-        worksheet_names.write(_x,_y_colomns,i,bold)
+        worksheet_names.write(_x_name,_y_colomns,i,bold)
         _y_colomns += 1
     _y_colomns = 0
     for i in work_colomns:
-        worksheet_works.write(_x,_y_colomns,i,bold)
+        worksheet_works.write(_x_work,_y_colomns,i,bold)
         _y_colomns += 1
-    _x = _x + 1
+    _x_name = _x_name + 1
+    _x_work = _x_work + 1
 
     for i in data:
             
-            user = list(User.objects.filter(id = int(i)).values())
-            user = user[0]
-            print(user)
+        user = list(User.objects.filter(id = int(i)).values())
+        user = user[0]
+        total_user_hours = 0
+    
+        for j in data[i]:
+            _y_work = 0
+            if j["work_type"] == "T":
 
-            worksheet_names.write(_x,_y_name, i)
-            _y_name += 1
-            worksheet_names.write(_x,_y_name, user["last_name"])
-            _y_name += 1
-            worksheet_names.write(_x,_y_name,user["first_name"])
-            _y_name += 1
-            worksheet_names.write(_x,_y_name,user["father_name"])
-            _y_name += 1
-            worksheet_names.write(_x,_y_name,JobTitle.objects.get(id = int(user["job_title_id_id"])).name)
-            _y_name += 1
-            worksheet_names.write(_x,_y_name, user["position"])
-            _y_name += 1
-            worksheet_names.write(_x,_y_name, "ща будет")
-            _y_name += 1
+                work = Task.objects.get(id = int(j["work_id_id"]))
+                p = Project.objects.get(id = work.project_id_id)
 
-            _x = _x + 1
+                worksheet_works.write(_x_work, _y_work, i)
+                _y_work += 1
+                worksheet_works.write(_x_work, _y_work, j["created_at"].strftime("%d/%m/%Y"))
+                _y_work += 1
+                worksheet_works.write(_x_work, _y_work, p.name)
+                _y_work += 1
+                worksheet_works.write(_x_work, _y_work,"задача")
+                _y_work += 1
+                worksheet_works.write(_x_work, _y_work, work.name)
+                _y_work += 1
+                worksheet_works.write(_x_work, _y_work, str(j["work_time"]))
 
-            for j in data[i]:
-                _y_work = 0
-                if j["work_type"] == "T":
+                total_user_hours += j["work_time"]
 
-                    work = Task.objects.get(id = int(j["work_id_id"]))
-                    p = Project.objects.get(id = work.project_id_id)
+            if j["work_type"] == "I":
+                
+                work = Issue.objects.get(id = int(j["work_id_id"]))
+                p = Project.objects.get(id = work.project_id_id)
 
-                    worksheet_works.write(_x, _y_work, i)
-                    _y_work += 1
-                    worksheet_works.write(_x, _y_work, j["created_at"].strftime("%d/%m/%Y"))
-                    _y_work += 1
-                    worksheet_works.write(_x, _y_work, p.name)
-                    _y_work += 1
-                    worksheet_works.write(_x, _y_work,"задача")
-                    _y_work += 1
-                    worksheet_works.write(_x, _y_work, work.name)
-                    _y_work += 1
-                    worksheet_works.write(_x, _y_work, str(j["work_time"]))
+                worksheet_works.write(_x_work, _y_work, i)
+                _y_work += 1
+                worksheet_works.write(_x_work, _y_work, j["created_at"].strftime("%d/%m/%Y"))
+                _y_work += 1
+                worksheet_works.write(_x_work, _y_work, p.name)
+                _y_work += 1
+                worksheet_works.write(_x_work, _y_work, "ошибка")
+                _y_work += 1
+                worksheet_works.write(_x_work, _y_work, work.name)
+                _y_work += 1
+                worksheet_works.write(_x_work, _y_work, str(j["work_time"]))
 
-                    _x = _x + 1
+                total_user_hours += j["work_time"]
 
-                if j["work_type"] == "I":
+            _x_work = _x_work + 1
+
+        worksheet_names.write(_x_name,_y_name, i)
+        _y_name += 1
+        worksheet_names.write(_x_name,_y_name, user["last_name"])
+        _y_name += 1
+        worksheet_names.write(_x_name,_y_name,user["first_name"])
+        _y_name += 1
+        worksheet_names.write(_x_name,_y_name,user["father_name"])
+        _y_name += 1
+        worksheet_names.write(_x_name,_y_name,JobTitle.objects.get(id = int(user["job_title_id_id"])).name)
+        _y_name += 1
+        worksheet_names.write(_x_name,_y_name, user["position"])
+        _y_name += 1
+        worksheet_names.write(_x_name,_y_name, total_user_hours)
+        _y_name += 1
+
+        _x_name = _x_name + 1
+        _y_name = 0
                     
-                    work = Issue.objects.get(id = int(j["work_id_id"]))
-                    p = Project.objects.get(id = work.project_id_id)
-
-                    worksheet_works.write(_x, _y_work, i)
-                    _y_work += 1
-                    worksheet_works.write(_x, _y_work, j["created_at"].strftime("%d/%m/%Y"))
-                    _y_work += 1
-                    worksheet_works.write(_x, _y_work, p.name)
-                    _y_work += 1
-                    worksheet_works.write(_x, _y_work, "ошибка")
-                    _y_work += 1
-                    worksheet_works.write(_x, _y_work, work.name)
-                    _y_work += 1
-                    worksheet_works.write(_x, _y_work, str(j["work_time"]))
-
-                    _x = _x + 1
-                    
+    worksheet_works.write_url("A1", "A11")
     worksheet_works.autofit()
     worksheet_names.autofit()
     workbook.close()
