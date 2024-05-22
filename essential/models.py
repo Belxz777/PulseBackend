@@ -85,4 +85,4 @@ class UserWIthTask(models.Model):
     work_type = models.CharField(max_length=80 , choices=WORK_TYPES,default="task")
     work_id = models.ForeignKey(Task, on_delete=models.PROTECT)
     work_time = models.IntegerField(default=0)
-    created_at = models.DateField(default=datetime.date.today)
+    created_at = models.DateTimeField(default=datetime.datetime.now())

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .utils import specific_comands, token_managing, generating_reports
+from .utils import specific_comands, token_managing, generating_reports, time_managing
 from . import views
 urlpatterns = [
     path('users/create',token_managing.RegisterView.as_view()),#для регистрации пользователей
@@ -44,4 +44,6 @@ urlpatterns = [
 
     path('get_report_for_department/<department_id>', generating_reports.department_report),
     path('UserWithTask_worktime_managing/<user_id>/<month>',specific_comands.UserWithTask_worktime_managing),
+
+    path('delete_if_finished',time_managing.delete_if_finished),
 ]
