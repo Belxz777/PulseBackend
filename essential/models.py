@@ -1,9 +1,9 @@
 
 
-import django
+
 from django.db import models
-from rest_framework import generics
 import datetime
+
 class JobTitle(models.Model):
     name = models.CharField(max_length=50)
 
@@ -14,9 +14,6 @@ class Department(models.Model):
 
 
 class Task(models.Model):
-    MADE = 'Готово'
-    PROGRESS = 'В процессе'
-    INTALK = 'В обсуждении'
     MADE = 'Готово'
     PROGRESS = 'В процессе'
     INTALK = 'В обсуждении'
@@ -34,12 +31,13 @@ class Task(models.Model):
     priority = models.IntegerField(default=0)
     workers = models.ManyToManyField('User')
     created_at = models.DateTimeField(default=datetime.datetime.now())
+    finished_at = models.DateTimeField(null=True)
 
 class Project(models.Model):
     name = models.CharField(max_length=70)
     description = models.CharField(max_length=800)
     members = models.ManyToManyField('User')
-    created_at = models.DateField(default=datetime.date.today)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
 
 class Issue(models.Model):
 
@@ -55,7 +53,8 @@ class Issue(models.Model):
     description = models.CharField(max_length=800)
     status = models.CharField(max_length=30, choices=STAGES, default=NOT_FIXED,null=True)
     author = models.ForeignKey("User", on_delete=models.PROTECT)
-    created_at = models.DateField(default=datetime.date.today)
+    created_at = models.DateTimeField(default=datetime.datetime.now())
+    finished_at = models.DateTimeField(null=True)
 
 class User(models.Model):
     WORKER = 'W'

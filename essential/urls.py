@@ -30,7 +30,7 @@ urlpatterns = [
     path("all_user_issue/<user_id>", specific_comands.get_all_user_issue),
     path("all_user_projects/<name>", specific_comands.get_all_user_projects),
 
-    path('user_worktim  /<user_id>',specific_comands.user_worktime_managing),
+    path('user_worktime/<user_id>',specific_comands.user_worktime_managing),
     path('userbyName/<user_name>',specific_comands.getUserByName),
     path('projectByName/<project_name>',specific_comands.getProjectByName),
 
@@ -43,4 +43,5 @@ urlpatterns = [
     path('get_all_UserWithTask_for_project/<project_id>',specific_comands.get_all_UserWithTask_for_project),
 
     path('get_report_for_department/<department_id>', generating_reports.department_report),
+    path('UserWithTask_worktime_managing/<user_id>/<month>',specific_comands.UserWithTask_worktime_managing),
 ]
