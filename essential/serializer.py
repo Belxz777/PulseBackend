@@ -104,7 +104,7 @@ class TaskSerializer(serializers.ModelSerializer):
         instance.hoursToAccomplish = validated_data.get('hoursToAccomplish', instance.hoursToAccomplish)
         instance.stageAt = validated_data.get('stageAt', instance.stageAt)
         instance.priority = validated_data.get('priority', instance.priority)
-        instance.workers.set(validated_data['workers'])
+        # instance.workers.set(validated_data['workers'])
 
         if instance.stageAt == 'Готово':
             instance.finished_at = datetime.datetime.now()
