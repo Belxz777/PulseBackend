@@ -1,3 +1,4 @@
+import datetime
 from rest_framework import serializers
 from .models import User, JobTitle, Project, Task, Issue, Department, UserWIthTask
 
@@ -92,7 +93,8 @@ class TaskSerializer(serializers.ModelSerializer):
                   'stageAt',
                   'priority',
                   'workers',
-                  'created_at'
+                  'created_at',
+                  'finished_at',
                       )
 
     def update(self, instance, validated_data):
@@ -103,6 +105,10 @@ class TaskSerializer(serializers.ModelSerializer):
         instance.stageAt = validated_data.get('stageAt', instance.stageAt)
         instance.priority = validated_data.get('priority', instance.priority)
         # instance.workers.set(validated_data['workers'])
+
+        if instance.stageAt == 'Готово':
+            instance.finished_at = datetime.datetime.now()
+
         instance.save()
         return instance
 
@@ -117,11 +123,20 @@ class IssueSerializer(serializers.ModelSerializer):
                   'status', 
                   'author',
                   'created_at',
+                  'finished_at',
                   )
-    def updateStage(self, instance, validated_data):
-        instance.stageAt = validated_data.get('status', instance.status)
+    def update(self, instance, validated_data):
+        instance.project_id = validated_data.get('project_id', instance.project_id)
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.status = validated_data.get('status', instance.status)
+
+        if instance.status == 'Закрыто':
+            instance.finished_at = datetime.datetime.now()
+
         instance.save()
         return instance
+    
 
 class UserWithTaskSerializer(serializers.ModelSerializer):
     class Meta:

@@ -10,7 +10,9 @@ from ..models import User, JobTitle, Project, Task, Issue, Department, UserWIthT
 from ..serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer, UserWithTaskSerializer
 from .basic_comands import db_get
 import datetime
+
 # про job_title
+
 # from django.utils import timezone
 # from datetime import timedelta
 
@@ -43,6 +45,7 @@ def get_all_user_issue(request, user_id):
     if request.method == 'GET':
         user_with_issue = Issue.objects.all().filter(workers=user_id)
         return db_get(user_with_issue, IssueSerializer, Issue)
+    
 @api_view(['GET'])
 def user_worktime_managing(request, user_id):
     if request.method == 'GET':
@@ -148,3 +151,12 @@ def get_all_UserWithTask_for_project(request, project_id):
                 res.append(j)
 
         return db_get(res, UserWithTaskSerializer, UserWIthTask)
+    
+def UserWithTask_worktime_managing(request, user_id, month):
+    if request.method == 'GET':
+        all_UserWIthTask = UserWIthTask.objects.all().filter(user_id=user_id)
+        hoursTotal = 0
+        for task in all_UserWIthTask:
+            if int(task.created_at.month) == int(month):
+                hoursTotal += task.work_time
+        return JsonResponse({'workHours': hoursTotal})
