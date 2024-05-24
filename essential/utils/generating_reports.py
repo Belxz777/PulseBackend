@@ -36,8 +36,9 @@ def export_page(data=None,department_id = 0):
     _y_work = 0
     _y_colomns = 0
 
-    name_colomns = ["id","Фамилия","Имя","Отчество","Должность","Статус","Время работы"]
-    work_colomns = ["id сотрудника","дата","прокт","тип работы","задача|исправление","время работы"]
+    name_colomns = ["Фамилия","Имя","Отчество","Должность","Статус","Время работы"]
+    work_colomns = ["Сотрудник","Дата","Проект","Тип работы","Задача|Исправление"," Время работы","Резерв","ЗНО","ЗНИ =20","ЗНИ >20","Постоянные\n и адм. работы\n (поручения,\n встречи,\n обучение и тд.)",
+                    "Регламентные работы","Техдолг","Отсутствия\n (больничные,\n отпуска,\n отгулы)","Комментарий"]
 
     d = Department.objects.get(id = department_id)
 
@@ -71,7 +72,7 @@ def export_page(data=None,department_id = 0):
                 work = Task.objects.get(id = int(j["work_id_id"]))
                 p = Project.objects.get(id = work.project_id_id)
 
-                worksheet_works.write(_x_work, _y_work, i)
+                worksheet_works.write(_x_work, _y_work,  user["last_name"]+" "+user["first_name"]+" "+user["father_name"])
                 _y_work += 1
                 worksheet_works.write(_x_work, _y_work, j["created_at"].strftime("%d/%m/%Y"))
                 _y_work += 1
@@ -90,7 +91,7 @@ def export_page(data=None,department_id = 0):
                 work = Issue.objects.get(id = int(j["work_id_id"]))
                 p = Project.objects.get(id = work.project_id_id)
 
-                worksheet_works.write(_x_work, _y_work, i)
+                worksheet_works.write(_x_work, _y_work,  user["last_name"]+" "+user["first_name"]+" "+user["father_name"])
                 _y_work += 1
                 worksheet_works.write(_x_work, _y_work, j["created_at"].strftime("%d/%m/%Y"))
                 _y_work += 1
@@ -106,8 +107,6 @@ def export_page(data=None,department_id = 0):
 
             _x_work = _x_work + 1
 
-        worksheet_names.write(_x_name,_y_name, i)
-        _y_name += 1
         worksheet_names.write(_x_name,_y_name, user["last_name"])
         _y_name += 1
         worksheet_names.write(_x_name,_y_name,user["first_name"])
