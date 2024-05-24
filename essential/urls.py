@@ -39,7 +39,7 @@ urlpatterns = [
     path('get_all_UserWithTask_for_issue/<issue_id>',specific_comands.get_all_UserWithTask_for_issue),
     path('get_all_UserWithTask_for_project/<project_id>',specific_comands.get_all_UserWithTask_for_project),
 
-    path('get_report_for_department/<department_id>', generating_reports.department_report),
+    path('get_report_for_department/<department_id>', generating_reports.   department_report),
     path('UserWithTask_worktime_managing/<user_id>/<month>',specific_comands.UserWithTask_worktime_managing),
 
     path('delete_if_finished',time_managing.delete_if_finished),
