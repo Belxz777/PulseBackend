@@ -123,7 +123,6 @@ def export_page(data=None,department_id = 0):
         _x_name = _x_name + 1
         _y_name = 0
                     
-    worksheet_works.write_url("A1", "A11")
     worksheet_works.autofit()
     worksheet_names.autofit()
     workbook.close()
