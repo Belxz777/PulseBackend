@@ -33,7 +33,7 @@ urlpatterns = [
 
     path('get_all_departments',specific_comands.get_all_departments),
     path('get_all_department_members/<department_id>',specific_comands.get_all_department_members),
-
+    path('get_all_department_tasks/<department_id>',specific_comands.get_all_department_tasks),
     path('get_all_UserWithTask_for_user/<user_id>',specific_comands.get_all_UserWithTask_for_user),
     path('get_all_UserWithTask_for_task/<task_id>',specific_comands.get_all_UserWithTask_for_task),
     path('get_all_UserWithTask_for_issue/<issue_id>',specific_comands.get_all_UserWithTask_for_issue),

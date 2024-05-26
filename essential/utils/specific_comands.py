@@ -49,14 +49,15 @@ def get_all_user_issue(request, user_id):
 @api_view(['GET'])
 def user_worktime_managing(request, user_id):
     if request.method == 'GET':
-        time = datetime.date.today()
-        all_tasks = Task.objects.all().filter(workers=user_id)
-        hoursTotal = 0
-        for task in all_tasks:
-            if task.created_at.month == time.month:
-                print(task.created_at.time,time.month)
-                hoursTotal += calculate_total_days(task)
-        return JsonResponse({'workHours': hoursTotal})
+                            time = datetime.date.today()
+                            all_tasks = Task.objects.all().filter(workers=user_id)
+                            hoursTotal = 0
+                            for task in all_tasks:
+                                 if task.created_at.month == time.month:
+                                      print(task.created_at.time,time.month)
+                                      hoursTotal += calculate_total_days(task)
+                            return JsonResponse({'workHours': hoursTotal})
+
 
 @api_view(['GET'])
 def getUserByName(request, user_name):
@@ -108,7 +109,15 @@ def get_all_department_members(request, department_id):
     if request.method == 'GET':
             members = User.objects.all().filter(department_id=department_id)
             return db_get(members, UsersSerializer, User)
-
+@api_view(['GET'])
+def get_all_department_tasks(request, department_id):
+    if request.method == 'GET':      
+            members = User.objects.all().filter(department_id=department_id)
+            members_ids = members.values_list('id', flat=True)
+            members_not_full = list(User.objects.filter(id__in=members_ids).values_list('id', flat=True))
+            tasks = Task.objects.filter(workers__in=members)
+            print(tasks)
+            return  db_get(tasks, TaskSerializer, Task)
 
 
 

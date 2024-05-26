@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-
+from rest_framework.parsers import JSONParser
 from .utils.basic_comands import db_get, db_create, db_update, db_delete
 from .models import User, JobTitle, Project, Task, Issue, Department, UserWIthTask
 from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer, UserWithTaskSerializer
@@ -134,6 +134,16 @@ def user_withw_task_managing(request, id):
         return db_get(user_with_task, UserWithTaskSerializer)
     
     elif request.method == 'POST':
+
+        data = JSONParser().parse(request)
+        task = Task.objects.get(id=data['work_id'])
+        print(data)
+
+        if task.hoursToAccomplish - data["work_time"] == 0:
+            task.stageAt = "Готово"
+            task.save()
+            print("task.stageAt =", task)
+        
         return db_create(request, UserWithTaskSerializer)
     
     elif request.method == 'PATCH':
