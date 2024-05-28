@@ -49,7 +49,7 @@ def db_delete(curent_class = None, id = 0):
     try:
         object = curent_class.objects.get(id=id)
         object.delete()
-        response.data = {"massage":"object deleted successfully"}
+        response.data = {"message":"object deleted successfully"}
     except:
-        response.data = {"massage":"error: object was not deleted"}
+        response.data = {"message":"error: object was not deleted"}
     return response
