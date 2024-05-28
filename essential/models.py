@@ -83,6 +83,6 @@ class UserWIthTask(models.Model):
     ]
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
     work_type = models.CharField(max_length=80 , choices=WORK_TYPES,default="T")
-    work_id =  models.IntegerField(default=1)
+    work_id = models.ForeignKey(Task, on_delete=models.PROTECT)
     work_time = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=datetime.datetime.now())
