@@ -70,7 +70,7 @@ def export_page(data=None,department_id = 0):
             _y_work = 0
             if j["work_type"] == "T":
 
-                work = Task.objects.get(id = int(j["work_id_id"]))
+                work = Task.objects.get(id = int(j["work_id"]))
                 p = Project.objects.get(id = work.project_id_id)
 
                 worksheet_works.write(_x_work, _y_work,  user["last_name"]+" "+user["first_name"]+" "+user["father_name"])
@@ -101,7 +101,7 @@ def export_page(data=None,department_id = 0):
 
             if j["work_type"] == "I":
                 
-                work = Issue.objects.get(id = int(j["work_id_id"]))
+                work = Issue.objects.get(id = int(j["work_id"]))
                 p = Project.objects.get(id = work.project_id_id)
 
                 worksheet_works.write(_x_work, _y_work,  user["last_name"]+" "+user["first_name"]+" "+user["father_name"])
@@ -114,7 +114,9 @@ def export_page(data=None,department_id = 0):
                 _y_work += 1
                 worksheet_works.write(_x_work, _y_work, work.name)
                 _y_work += 1
-                
+                worksheet_works.write(_x_work, _y_work, str(j["work_time"]))
+                _y_work += 1
+
                 worksheet_works.write(_x_work, _y_work, str(j["work_time"]))
                 for def_val in default_values:
                     if len(def_val) == 1:

@@ -100,7 +100,7 @@ def issue_managing(request, id):
         return db_get(issue, IssueSerializer, Issue)
 
     elif request.method == 'POST':
-        print(request.data)
+        print(request.data, datetime.datetime.now())
         return db_create(request, IssueSerializer)
 
     elif request.method == 'PATCH':
