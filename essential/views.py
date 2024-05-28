@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from rest_framework.parsers import JSONParser
+
 from .utils.basic_comands import db_get, db_create, db_update, db_delete
 from .models import User, JobTitle, Project, Task, Issue, Department, UserWIthTask
 from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, IssueSerializer, DepartmentSerializer, UserWithTaskSerializer
