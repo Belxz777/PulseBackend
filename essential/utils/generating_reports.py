@@ -12,7 +12,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import letter, A4
 
-
+import random
 
 @api_view(['GET'])
 def department_report(request,department_id):
@@ -39,6 +39,7 @@ def export_page(data=None,department_id = 0):
     name_colomns = ["Фамилия","Имя","Отчество","Должность","Статус","Время работы"]
     work_colomns = ["Сотрудник","Дата","Проект","Тип работы","Задача|Исправление"," Время работы","Резерв","ЗНО","ЗНИ =20","ЗНИ >20","Постоянные\n и адм. работы\n (поручения,\n встречи,\n обучение и тд.)",
                     "Регламентные работы","Техдолг","Отсутствия\n (больничные,\n отпуска,\n отгулы)","Комментарий"]
+    default_values = [[" "],[41.00,129.00,16.00],[18.00,8.00,16.00],[20.00,71.00],[42.00,6.00,7,00,24.00],["да","нет","нет","нет"],[12.00,14.00,16.00],["больничный","отпуск","отгул","","","","",""]]
 
     d = Department.objects.get(id = department_id)
 
@@ -83,6 +84,18 @@ def export_page(data=None,department_id = 0):
                 worksheet_works.write(_x_work, _y_work, work.name)
                 _y_work += 1
                 worksheet_works.write(_x_work, _y_work, str(j["work_time"]))
+                _y_work += 1
+
+                for def_val in default_values:
+                    if len(def_val) == 1:
+                        worksheet_works.write(_x_work, _y_work,  def_val[0])
+                        print(def_val)
+                        _y_work += 1
+                    else:
+                        r_v = random.randint(0,len(def_val)-1)
+                        print(r_v,def_val)
+                        worksheet_works.write(_x_work, _y_work,  def_val[r_v])
+                        _y_work += 1
 
                 total_user_hours += j["work_time"]
 
@@ -101,7 +114,18 @@ def export_page(data=None,department_id = 0):
                 _y_work += 1
                 worksheet_works.write(_x_work, _y_work, work.name)
                 _y_work += 1
+                
                 worksheet_works.write(_x_work, _y_work, str(j["work_time"]))
+                for def_val in default_values:
+                    if len(def_val) == 1:
+                        worksheet_works.write(_x_work, _y_work,  def_val[0])
+                        print(def_val)
+                        _y_work += 1
+                    else:
+                        r_v = random.randint(0,len(def_val)-1)
+                        print(r_v,def_val)
+                        worksheet_works.write(_x_work, _y_work,  def_val[r_v])
+                        _y_work += 1
 
                 total_user_hours += j["work_time"]
 
