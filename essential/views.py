@@ -130,19 +130,19 @@ def department_managing(request, id):
 @api_view(['GET', 'POST', 'DELETE', 'PATCH'])
 def user_withw_task_managing(request, id):
     if request.method == 'GET':
-        user_with_task = UserWIthTask.objects.all().filter(id=id)
-        return db_get(user_with_task, UserWithTaskSerializer)
+        user_with_task = UserWIthTask.objects.filter(id=id)
+        return db_get(user_with_task, UserWithTaskSerializer, UserWIthTask)
     
     elif request.method == 'POST':
 
-        data = JSONParser().parse(request)
-        task = Task.objects.get(id=data['work_id'])
-        print(data)
+        # data = JSONParser().parse(request)
+        # task = Task.objects.get(id=data['work_id'])
+        # print(data)
 
-        if task.hoursToAccomplish - data["work_time"] == 0:
-            task.stageAt = "Готово"
-            task.save()
-            print("task.stageAt =", task)
+        # if task.hoursToAccomplish - data["work_time"] == 0:
+        #     task.stageAt = "Готово"
+        #     task.save()
+        #     print("task.stageAt =", task)
         
         return db_create(request, UserWithTaskSerializer)
     

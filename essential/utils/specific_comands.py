@@ -43,7 +43,7 @@ def get_all_user_task(request, user_id):
 @api_view(['GET'])
 def get_all_user_issue(request, user_id):
     if request.method == 'GET':
-        user_with_issue = Issue.objects.all().filter(workers=user_id)
+        user_with_issue = Issue.objects.all().filter(author=user_id)
         return db_get(user_with_issue, IssueSerializer, Issue)
     
 @api_view(['GET'])
